@@ -5,6 +5,7 @@ import { Check, Close, ThumbDown, ThumbUp } from "@mui/icons-material";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { updateUserScore } from "@/actions/actions";
+import StudyFinishModal from "./StudyFinishModal";
 
 type CardsProps = {
   initialCards?: Card[];
@@ -21,6 +22,7 @@ export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
   const hasPrev = index > 0;
   const card = cards[index];
   const isLastCard = index === cards.length - 1;
+  const score = cards.length * 2;
 
   if (cards.length === 0) {
     return (
@@ -62,11 +64,10 @@ export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
   }
 
   function handleFinish() {
-    const score = cards.length * 2;
     updateUserScore(user!.id, score);
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === " ") {
       e.preventDefault();
       handleFlip();
@@ -110,14 +111,19 @@ export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
 
           <div className="flex justify-center items-center gap-4 mt-4">
             {isLastCard ? (
-              <Link href={`/decks/${deckId}`}>
-                <button
-                  onClick={handleFinish}
-                  className="h-[42px] bg-indigo-600 py-2 px-6 rounded-lg font-semibold hover:bg-indigo-500 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
-                >
-                  Finish
-                </button>
-              </Link>
+              // <Link href={`/decks/${deckId}`}>
+              //   <button
+              //     onClick={handleFinish}
+              //     className="h-[42px] bg-indigo-600 py-2 px-6 rounded-lg font-semibold hover:bg-indigo-500 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
+              //   >
+              //     Finish
+              //   </button>
+              // </Link>
+              <StudyFinishModal
+                deckId={deckId}
+                score={score}
+                handleFinish={handleFinish}
+              />
             ) : (
               <>
                 <button

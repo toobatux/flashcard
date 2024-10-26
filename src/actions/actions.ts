@@ -18,7 +18,7 @@ export async function createDeck(formData: FormData) {
     const description = formData.get("description") as string;
     const user = await currentUser();
 
-    await prisma.deck.create({ 
+    const newDeck = await prisma.deck.create({ 
         data: { 
             title, 
             description,
@@ -27,7 +27,7 @@ export async function createDeck(formData: FormData) {
             }
         }});
 
-    redirect("/decks");
+    redirect(`/decks/${newDeck.id}`);
 }
 
 export async function editDeck(formData: FormData) {

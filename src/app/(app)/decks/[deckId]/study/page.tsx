@@ -11,6 +11,7 @@ export default async function Page({ params }: { params: { deckId: string } }) {
   const deck = await fetchDeckById(params.deckId);
   return (
     <>
+      <div className="my-2"></div>
       <div className="max-w-3xl mx-auto">
         <div className="flex w-full justify-between items-center rounded-lg">
           <div className="text-lg font-semibold text-white/80">
