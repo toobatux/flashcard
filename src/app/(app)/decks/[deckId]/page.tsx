@@ -12,6 +12,7 @@ import EditModal from "@/app/components/EditModal";
 import { MoreHoriz } from "@mui/icons-material";
 import Leaderboard from "@/app/components/Leaderboard";
 import MoreDropdown from "@/app/components/MoreDropdown";
+import KeyboardMessage from "@/app/components/KeyboardMessage";
 
 export default async function DeckPage({
   params,
@@ -36,7 +37,7 @@ export default async function DeckPage({
         <div className="text-3xl font-semibold flex">{deck?.title}</div>
         <div className="text-white/50 mt-2 mb-4">{deck?.description}</div>
 
-        <div className="flex w-full justify-between rounded-xl mb-8 lg:mb-12">
+        <div className="flex w-full justify-between rounded-xl mb-8 lg:mb-8">
           <div>
             <div className="block text-xs text-white/50">Created by</div>
             <div className="flex items-center mt-2 h-[25px] text-white/80 font-semibold">
@@ -62,6 +63,10 @@ export default async function DeckPage({
         {/* Leaderboard positioned at the top-right */}
         <div className="hidden 2xl:block absolute top-0 -right-[20rem] w-1/3 p-4">
           <Leaderboard deck={deck!} />
+        </div>
+
+        <div className="hidden lg:block mb-8">
+          <KeyboardMessage />
         </div>
 
         {/* Main content */}

@@ -54,8 +54,8 @@ const StudyFinishModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-xl font-bold mb-4">Great job!</h2>
-        You earned {score} points.
-        <div className="flex gap-2 mt-4">
+        <div className="text-white/60">You earned {score} points.</div>
+        <div className="flex gap-2 mt-6">
           {/* <div className="w-full">
             <button
               className="h-[42px] px-4 py-2 w-full border border-white/15 hover:bg-white/10 text-white/60 hover:text-white rounded-lg transition-colors"
@@ -65,7 +65,7 @@ const StudyFinishModal = ({
             </button>
           </div> */}
           <button
-            className="h-[42px] bg-indigo-600 w-full py-2 px-6 rounded-lg font-semibold hover:bg-indigo-500 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
+            className="h-[42px] bg-indigo-600 w-full py-2 px-6 rounded-lg font-semibold text-sm hover:bg-indigo-500 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
             onClick={handleContinue}
           >
             Continue

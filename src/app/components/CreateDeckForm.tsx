@@ -6,7 +6,7 @@ import { useActionState } from "react";
 
 export default function CreateDeckForm() {
   return (
-    <form action={createDeck} className="flex flex-col gap-y-4 w-full md:w-1/2">
+    <form action={createDeck} className="flex flex-col gap-y-4 w-full">
       <div>
         <label
           htmlFor="title"

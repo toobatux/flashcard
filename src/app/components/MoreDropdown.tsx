@@ -59,7 +59,7 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
           <div className="p-2" role="none">
             {userIsAuthor && (
               <Link
-                href="#"
+                href={`/decks/${deckId}/edit`}
                 className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
                 role="menuitem"
               >
@@ -85,7 +85,7 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
             </Link>
             {userIsAuthor && (
               <>
-                <div className="w-full py-1">
+                <div className="w-full py-2">
                   <hr className="border-t border-white/20" />
                 </div>
                 {/* <button

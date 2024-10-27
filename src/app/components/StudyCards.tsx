@@ -128,15 +128,15 @@ export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
               <>
                 <button
                   onClick={handleHardClick}
-                  className={`h-[42px] w-[42px] border border-white/10 p-2 rounded-xl hover:bg-red-800 hover:bg-opacity-50 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors`}
+                  className={`h-[42px] font-semibold border border-white/10 px-4 py-2 rounded-xl hover:bg-white/5 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors`}
                 >
-                  <Close />
+                  Hard
                 </button>
                 <button
                   onClick={handleEasyClick}
-                  className="h-[42px] w-[42px] border border-white/10 p-2 rounded-xl hover:bg-green-800 hover:bg-opacity-50 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
+                  className="h-[42px] font-semibold border border-white/10 px-4 py-2 rounded-xl hover:bg-white/5 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
                 >
-                  <Check />
+                  Easy
                 </button>
               </>
             )}

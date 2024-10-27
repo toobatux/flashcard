@@ -40,19 +40,19 @@ const DeleteModal = ({ deckId }: DeleteModalProps) => {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-xl font-bold mb-4">Delete deck</h2>
-        <div className="mb-1 text-white/50">
+        <div className="text-white/60">
           Are you sure you want to delete this deck?
         </div>
-        <div className="text-white/50">This cannot be undone.</div>
+        <div className="text-white/60">This cannot be undone.</div>
         <div className="flex mt-6 gap-2">
           <button
-            className="h-[42px] px-4 py-2 flex-1 border border-white/15 hover:bg-white/10 text-white rounded-lg transition-colors"
+            className="h-[42px] px-4 py-2 flex-1 font-semibold text-sm border border-white/15 hover:bg-white/10 text-white/50 hover:text-white rounded-lg transition-colors"
             onClick={toggleModal}
           >
             Cancel
           </button>
           <button
-            className="h-[42px] px-4 py-2 flex-1 border border-red-600 border-opacity-60 bg-red-600 bg-opacity-50 hover:bg-red-500 text-white rounded-lg transition-colors"
+            className="h-[42px] px-4 py-2 flex-1 font-semibold text-sm bg-red-600 bg-opacity-40 hover:bg-red-500 hover:bg-opacity-50 text-white rounded-lg transition-colors"
             onClick={handleDelete}
           >
             Delete

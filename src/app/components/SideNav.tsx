@@ -27,7 +27,7 @@ const navLinks: Array<{
 const SideNav = () => {
   const pathName = usePathname();
   return (
-    <aside className="hidden md:block fixed top-16 left-0 h-full w-[5rem] lg:w-[15rem] border-r border-white/10 p-1 pt-4 px-4">
+    <aside className="hidden md:block fixed top-16 left-0 h-full w-[5rem] xl:w-[15rem] border-r border-white/10 p-1 pt-4 px-4">
       <nav className="grid space-y-1 text-sm">
         {navLinks.map((link) => {
           const isActive = pathName.startsWith(link.href);
@@ -43,7 +43,7 @@ const SideNav = () => {
               }
             >
               {IconComponent && <IconComponent />}
-              <div className="hidden lg:block">{link.name}</div>
+              <div className="hidden xl:block">{link.name}</div>
             </Link>
           );
         })}
