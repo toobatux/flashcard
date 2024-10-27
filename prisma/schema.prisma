@@ -21,6 +21,7 @@ model User {
   imageURL         String
   decks            Deck[]
   lastStudiedDecks Deck[]  @relation("LastStudiedDecks")
+  savedDecks       Deck[]  @relation("SavedDecks")
   score            Int     @default(0)
 }
 
@@ -34,6 +35,7 @@ model Deck {
   author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   cards       Card[]
   students    User[]   @relation("LastStudiedDecks")
+  savedBy     User[]   @relation("SavedDecks")
 }
 
 model Card {

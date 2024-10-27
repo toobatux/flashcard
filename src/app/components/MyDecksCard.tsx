@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 type DeckWithRelations = Prisma.DeckGetPayload<{
-  include: { cards: true; author: true };
+  include: { cards: true; author: true; savedBy: true; students: true };
 }>;
 
 type MyDecksCardProps = {

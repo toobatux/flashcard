@@ -6,11 +6,45 @@ import { notFound, redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 
 type DeckWithRelations = Prisma.DeckGetPayload<{
-    include: { cards: true; author: true, students: true };
+    include: { cards: true; author: true, students: true, savedBy: true };
   }>;
 
+// export type DeckWithRelations = {
+//     id: string;
+//     title: string;
+//     description: string;
+//     createdOn: Date;
+//     updatedOn: Date;
+//     authorId: string;
+//     cards: { id: number; question: string; answer: string; deckId: string }[];
+//     author: {
+//       id: string;
+//       clerkId: string;
+//       email: string;
+//       username: string | null;
+//       imageURL: string;
+//       score: number;
+//     };
+//     students: {
+//       id: string;
+//       clerkId: string;
+//       email: string;
+//       username: string | null;
+//       imageURL: string;
+//       score: number;
+//     }[];
+//     savedBy: {
+//       id: string;
+//       clerkId: string;
+//       email: string;
+//       username: string | null;
+//       imageURL: string;
+//       score: number;
+//     }[];
+//   };
+
 type UserWithRelations = Prisma.UserGetPayload<{
-    include: { lastStudiedDecks: true;};
+    include: { lastStudiedDecks: true, savedDecks: true};
 }>;
 
 export async function createDeck(formData: FormData) {
@@ -60,21 +94,21 @@ export async function deleteDeck(id: string) {
 
 export async function fetchDecks(): Promise<DeckWithRelations[]> {
     return await prisma.deck.findMany({
-        include: { cards: true, author: true, students: true },
+        include: { cards: true, author: true, students: true, savedBy: true },
     });
 }
 
 export async function fetchMyDecks(authorId: string): Promise<DeckWithRelations[]> {
     return await prisma.deck.findMany({
         where: { authorId: authorId },
-        include: { cards: true, author: true, students: true },
+        include: { cards: true, author: true, students: true, savedBy: true },
     });
 }
 
 export async function fetchDeckById(id: string): Promise<DeckWithRelations | null> {
     const deck = await prisma.deck.findUnique({
         where: { id },
-        include: { cards: true, author: true, students: true },
+        include: { cards: true, author: true, students: true, savedBy: true },
     });
 
     if(!deck) {
@@ -92,8 +126,10 @@ export async function getUser(clerkId: string): Promise<UserWithRelations | null
                 include: {
                     author: true,
                     cards: true,
+                    savedBy: true,
                 }
             },
+            savedDecks: true
         }
     });
 }
@@ -133,6 +169,34 @@ export async function updateRecentDecks(clerkId: string, deckId: string) {
             }
         }
     })
+}
+
+export async function addDeckToSaved(clerkId: string, deckId: string) {
+    await prisma.user.update({
+        where: {clerkId},
+        data: {
+            savedDecks: {connect: { id: deckId }},
+        }
+    })
+    console.log(`Deck ${deckId} saved for User ${clerkId}`)
+}
+
+export async function getSavedDecksForUser(clerkId: string) {
+    const user = await prisma.user.findUnique({
+        where: { clerkId },
+        include: {
+            savedDecks: {
+                include: {
+                    cards: true,
+                    author: true,
+                    students: true,
+                    savedBy: true,
+                }
+            }
+        }
+    })
+
+    return user?.savedDecks;
 }
 
 export async function createCard(formData: FormData) {

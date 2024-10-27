@@ -10,6 +10,8 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DeleteModal from "./DeleteModal";
+import { addDeckToSaved } from "@/actions/actions";
+import { useUser } from "@clerk/nextjs";
 
 interface MoreDropdownProps {
   userIsAuthor: boolean;
@@ -18,6 +20,7 @@ interface MoreDropdownProps {
 
 const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -28,6 +31,10 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
     if (!target.closest(".dropdown")) {
       setIsOpen(false);
     }
+  };
+
+  const handleSaveDeck = () => {
+    addDeckToSaved(user!.id, deckId);
   };
 
   useEffect(() => {
@@ -67,14 +74,14 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
                 Edit
               </Link>
             )}
-            <Link
-              href="#"
+            <button
+              onClick={handleSaveDeck}
               className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
               role="menuitem"
             >
               <BookmarkAddOutlined className="text-white/50" />
               Add to library
-            </Link>
+            </button>
             <Link
               href="#"
               className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
