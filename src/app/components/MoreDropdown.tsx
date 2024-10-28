@@ -74,14 +74,16 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
                 Edit
               </Link>
             )}
-            <button
-              onClick={handleSaveDeck}
-              className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
-              role="menuitem"
-            >
-              <BookmarkAddOutlined className="text-white/50" />
-              Add to library
-            </button>
+            {!userIsAuthor && (
+              <button
+                onClick={handleSaveDeck}
+                className="flex w-full items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
+                role="menuitem"
+              >
+                <BookmarkAddOutlined className="text-white/50" />
+                Add to library
+              </button>
+            )}
             <Link
               href="#"
               className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"

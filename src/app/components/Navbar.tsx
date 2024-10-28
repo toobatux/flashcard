@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   SignInButton,
   SignedIn,
@@ -9,9 +9,9 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import Searchbar from "./Searchbar";
 import { Add, Menu } from "@mui/icons-material";
+import SideNav from "./SideNav";
 
 const navLinks = [
   { name: "Home", href: "/home" },
@@ -19,8 +19,12 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const pathName = usePathname();
   const { isSignedIn } = useUser();
+  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+
+  const toggleSideNav = () => {
+    setIsSideNavOpen(!isSideNavOpen);
+  };
 
   return (
     <>
@@ -38,7 +42,10 @@ const Navbar = () => {
                       Flashcards
                     </Link>
                   </div>
-                  <div className="block xl:hidden m-2 px-3 py-2 rounded-lg hover:bg-white/5">
+                  <div
+                    onClick={toggleSideNav}
+                    className="block xl:hidden m-2 px-3 py-2 rounded-lg hover:bg-white/5"
+                  >
                     <Menu />
                   </div>
                   {/* <Searchbar /> */}
@@ -47,16 +54,24 @@ const Navbar = () => {
                   {isSignedIn && (
                     <Link
                       href="/decks/create"
-                      className="p-1.5 text-sm flex items-center text-indigo-600 border border-indigo-600 hover:border-indigo-400 hover:text-indigo-400 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+                      className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-indigo-600 border border-indigo-600 hover:border-indigo-400 hover:text-indigo-400 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
                     >
-                      <Add fontSize="small" className="" />
+                      <Add className="" />
                     </Link>
                   )}
                   <SignedOut>
                     <SignInButton />
                   </SignedOut>
                   <SignedIn>
-                    <UserButton />
+                    <div className="flex items-center">
+                      <UserButton
+                        appearance={{
+                          elements: {
+                            userButtonAvatarBox: "w-[40px] h-[40px]",
+                          },
+                        }}
+                      />
+                    </div>
                   </SignedIn>
                 </div>
               </div>
@@ -64,6 +79,18 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {isSideNavOpen && (
+        <div className="fixed inset-0 bg-black/50 z-30" onClick={toggleSideNav}>
+          <SideNav isOpenMobile={isSideNavOpen} />
+        </div>
+      )}
+      {/* {isSideNavOpen && (
+        <SideNav
+        // isMobile={true}
+        // closeSideNav={() => setIsSideNavOpen(false)}
+        // isOpen={isSideNavOpen}
+        />
+      )} */}
     </>
   );
 };
