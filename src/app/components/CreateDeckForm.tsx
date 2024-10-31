@@ -2,11 +2,52 @@
 
 import { createDeck } from "@/actions/actions";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+
+interface FormData {
+  title?: string;
+  description?: string;
+}
+
+interface FormErrors {
+  title?: string;
+}
 
 export default function CreateDeckForm() {
+  const [formData, setFormData] = useState<FormData>({});
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.title || formData.title.length < 4) {
+      newErrors.title = "Title must be at least 4 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const deckData = new FormData();
+      deckData.append("title", formData.title || "");
+      if (formData.description) {
+        deckData.append("description", formData.description);
+      }
+      createDeck(deckData);
+    }
+  };
+
   return (
-    <form action={createDeck} className="flex flex-col gap-y-4 w-full">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
       <div>
         <label
           htmlFor="title"
@@ -18,9 +59,13 @@ export default function CreateDeckForm() {
           type="text"
           name="title"
           id="title"
+          onChange={handleChange}
           placeholder="Deck Title"
           className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"
         />
+        {errors.title && (
+          <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+        )}
       </div>
       <div>
         <div className="flex justify-between items-center">
@@ -37,6 +82,7 @@ export default function CreateDeckForm() {
         <textarea
           name="description"
           id="desc"
+          onChange={handleChange}
           rows={2}
           placeholder="Deck description"
           className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"

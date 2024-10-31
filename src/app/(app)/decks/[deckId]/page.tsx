@@ -25,7 +25,6 @@ export default async function DeckPage({
   const userIsAuthor = user?.id === deck?.author.clerkId;
   const isEmpty = cards?.length === 0;
   console.log(deck?.id);
-
   // function handleStudy() {
   //   updateRecentDecks(user!.id, deck!.id);
   // }
@@ -34,7 +33,9 @@ export default async function DeckPage({
     <>
       <div className="my-2 md:my-4 lg:my-8"></div>
       <div className="relative max-w-3xl mx-auto">
-        <div className="text-3xl font-semibold flex">{deck?.title}</div>
+        <div className="text-xl md:text-2xl lg:text-3xl font-bold flex">
+          {deck?.title}
+        </div>
         <div className="text-white/50 mt-2 mb-4">{deck?.description}</div>
 
         <div className="flex w-full justify-between rounded-xl mb-8 lg:mb-8">

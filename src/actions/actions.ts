@@ -71,6 +71,12 @@ export async function editDeck(formData: FormData) {
     const user = await currentUser();
     console.log("Updating deck:" + id)
 
+    // const cards = JSON.parse(formData.get("cards") as string) as Array<{
+    //     id?: number;
+    //     question: string;
+    //     answer: string;
+    //   }>;
+
     await prisma.deck.update({ 
         where: { id },
         data: { 
@@ -181,6 +187,31 @@ export async function addDeckToSaved(clerkId: string, deckId: string) {
     console.log(`Deck ${deckId} saved for User ${clerkId}`)
 }
 
+export async function removeDeckFromSaved(clerkId: string, deckId: string) {
+    await prisma.user.update({
+        where: { clerkId },
+        data: {
+            savedDecks: { disconnect: { id: deckId } },
+        },
+    });
+    console.log(`Deck ${deckId} removed from saved decks for User ${clerkId}`)
+}
+
+export async function isDeckSaved(clerkId: string, deckId: string) {
+    const deck = await prisma.deck.findFirst({
+        where: {
+            id: deckId,
+            savedBy: {
+                some: {
+                    id: clerkId,
+                },
+            },
+        },
+    });
+
+    return !!deck;
+} 
+
 export async function getSavedDecksForUser(clerkId: string) {
     const user = await prisma.user.findUnique({
         where: { clerkId },
@@ -213,6 +244,42 @@ export async function createCard(formData: FormData) {
             }
         }
     })
+}
+
+export async function createDeckCopy(deckId: string, clerkId: string) {
+    const newAuthor = await prisma.user.findUnique({
+        where: { clerkId },
+    });
+
+    if (!newAuthor) {
+        throw new Error('User not found');
+    }
+
+    const originalDeck = await prisma.deck.findUnique({
+        where: { id: deckId },
+        include: { cards: true },
+    });
+
+    if (!originalDeck) {
+        throw new Error('Deck not found');
+    }
+
+    const newDeck = await prisma.deck.create({
+        data: {
+            title: `${originalDeck.title} (Copy)`,
+            description: originalDeck.description,
+            author: { connect: { id: newAuthor.id }},
+            cards: {
+                create: originalDeck.cards.map((card) => ({
+                    question: card.question,
+                    answer: card.answer,
+                })),
+            },
+        },
+    });
+
+    console.log("Deck copied successfully:", newDeck);
+    redirect(`/decks/${newDeck.id}`)
 }
 
 // type User = {

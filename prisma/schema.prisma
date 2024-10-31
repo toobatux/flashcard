@@ -28,7 +28,7 @@ model User {
 model Deck {
   id          String   @id @default(cuid())
   title       String   @db.VarChar(255)
-  description String   @db.VarChar(500)
+  description String?  @db.VarChar(500)
   createdOn   DateTime @default(now())
   updatedOn   DateTime @updatedAt
   authorId    String

@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  BookmarkAddOutlined,
-  ContentCopy,
-  EditOutlined,
-  HighlightOff,
-  MoreHoriz,
-} from "@mui/icons-material";
+import { ContentCopy, EditOutlined, MoreHoriz } from "@mui/icons-material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DeleteModal from "./DeleteModal";
-import { addDeckToSaved } from "@/actions/actions";
+import { createDeckCopy, isDeckSaved } from "@/actions/actions";
 import { useUser } from "@clerk/nextjs";
+import SaveDeckButton from "./SaveDeckButton";
 
 interface MoreDropdownProps {
   userIsAuthor: boolean;
@@ -33,8 +28,8 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
     }
   };
 
-  const handleSaveDeck = () => {
-    addDeckToSaved(user!.id, deckId);
+  const handleCreateCopy = async () => {
+    createDeckCopy(deckId, user!.id);
   };
 
   useEffect(() => {
@@ -58,7 +53,7 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
 
       {isOpen && (
         <div
-          className="absolute right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-neutral-900 border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
+          className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md bg-neutral-900 border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -75,23 +70,18 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
               </Link>
             )}
             {!userIsAuthor && (
-              <button
-                onClick={handleSaveDeck}
-                className="flex w-full items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
-                role="menuitem"
-              >
-                <BookmarkAddOutlined className="text-white/50" />
-                Add to library
-              </button>
+              <>
+                <SaveDeckButton clerkId={user!.id} deckId={deckId} />
+              </>
             )}
-            <Link
-              href="#"
-              className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
+            <button
+              onClick={handleCreateCopy}
+              className="flex w-full items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
               role="menuitem"
             >
               <ContentCopy className="text-white/50" />
               Create a copy
-            </Link>
+            </button>
             {userIsAuthor && (
               <>
                 <div className="w-full py-2">

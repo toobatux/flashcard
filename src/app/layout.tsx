@@ -33,16 +33,16 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-neutral-900`}
         >
-          <ClerkLoading>
+          {/* <ClerkLoading>
             <div className="flex w-full h-screen justify-center items-center">
               Loading...
             </div>
-          </ClerkLoading>
-          <ClerkLoaded>
-            <Navbar />
-            <main className="flex-grow w-full h-full">{children}</main>
-            <Footer />
-          </ClerkLoaded>
+          </ClerkLoading> */}
+          {/* <ClerkLoaded> */}
+          <Navbar />
+          <main className="flex-grow w-full h-full">{children}</main>
+          <Footer />
+          {/* </ClerkLoaded> */}
         </body>
       </html>
     </ClerkProvider>

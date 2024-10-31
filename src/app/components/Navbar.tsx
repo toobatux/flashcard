@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import {
+  ClerkLoaded,
+  ClerkLoading,
   SignInButton,
   SignedIn,
   SignedOut,
@@ -42,12 +44,12 @@ const Navbar = () => {
                       Flashcards
                     </Link>
                   </div>
-                  <div
+                  <button
                     onClick={toggleSideNav}
                     className="block xl:hidden m-2 px-3 py-2 rounded-lg hover:bg-white/5"
                   >
                     <Menu />
-                  </div>
+                  </button>
                   {/* <Searchbar /> */}
                 </div>
                 <div className="flex items-center space-x-4">
@@ -59,20 +61,25 @@ const Navbar = () => {
                       <Add className="" />
                     </Link>
                   )}
-                  <SignedOut>
-                    <SignInButton />
-                  </SignedOut>
-                  <SignedIn>
-                    <div className="flex items-center">
-                      <UserButton
-                        appearance={{
-                          elements: {
-                            userButtonAvatarBox: "w-[40px] h-[40px]",
-                          },
-                        }}
-                      />
-                    </div>
-                  </SignedIn>
+                  <ClerkLoading>
+                    <p>...</p>
+                  </ClerkLoading>
+                  <ClerkLoaded>
+                    <SignedOut>
+                      <SignInButton />
+                    </SignedOut>
+                    <SignedIn>
+                      <div className="flex items-center">
+                        <UserButton
+                          appearance={{
+                            elements: {
+                              userButtonAvatarBox: "w-[40px] h-[40px]",
+                            },
+                          }}
+                        />
+                      </div>
+                    </SignedIn>
+                  </ClerkLoaded>
                 </div>
               </div>
             </div>
@@ -80,9 +87,14 @@ const Navbar = () => {
         </div>
       </div>
       {isSideNavOpen && (
-        <div className="fixed inset-0 bg-black/50 z-30" onClick={toggleSideNav}>
-          <SideNav isOpenMobile={isSideNavOpen} />
-        </div>
+        <>
+          <div
+            className="fixed inset-0 bg-black/50 z-30 xl:hidden"
+            onClick={toggleSideNav}
+          >
+            <SideNav isOpenMobile={isSideNavOpen} />
+          </div>
+        </>
       )}
       {/* {isSideNavOpen && (
         <SideNav

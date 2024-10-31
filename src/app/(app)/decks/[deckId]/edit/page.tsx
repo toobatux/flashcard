@@ -1,3 +1,5 @@
+import EditDeckForm from "@/app/components/EditDeckForm";
+
 const EditDeckPage = ({ params }: { params: { deckId: string } }) => {
   return (
     <div className="max-w-3xl mx-auto">
@@ -8,7 +10,9 @@ const EditDeckPage = ({ params }: { params: { deckId: string } }) => {
         </h1>
       </div>
 
-      <div className="flex justify-center mt-4"></div>
+      <div className="flex justify-center mt-4">
+        <EditDeckForm deckId={params.deckId} />
+      </div>
     </div>
   );
 };
