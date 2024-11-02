@@ -43,7 +43,7 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
     <div className="relative inline-block text-left dropdown">
       <button
         type="button"
-        className="flex items-center border border-white/50 hover:border-white/65 hover:bg-white/10 p-2 rounded-lg text-white font-semibold transition-colors"
+        className="flex items-center border-2 border-white/50 hover:border-white/65 hover:bg-white/10 p-1.5 rounded-lg text-white font-semibold transition-colors"
         onClick={toggleDropdown}
         aria-expanded={isOpen}
         aria-haspopup="true"

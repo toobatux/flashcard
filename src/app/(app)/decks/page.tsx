@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fetchDecks } from "@/actions/actions";
+import { fetchPublicDecks } from "@/actions/actions";
 import { auth } from "@clerk/nextjs/server";
 import Greeting from "../../components/Greeting";
 import SearchIcon from "@mui/icons-material/Search";
@@ -12,7 +12,7 @@ import DeckCard from "../../components/DeckCard";
 export default async function Decks() {
   auth().protect();
   // const { userId }: { userId: string | null } = auth();
-  const decks = await fetchDecks();
+  const decks = await fetchPublicDecks();
   return (
     <>
       <div className="lg:my-6 my-4">

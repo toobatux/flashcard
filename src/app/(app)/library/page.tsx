@@ -9,8 +9,21 @@ import SavedDecks from "@/app/components/SavedDecks";
 export default async function MyDecks() {
   auth().protect();
   const clerkUser = await currentUser();
+
+  if (!clerkUser) {
+    console.error("Error: no clerkUser found");
+    return <div>Error: User not authenticated.</div>;
+  }
+
   const user = await getUser(clerkUser!.id);
-  const decks = await fetchMyDecks(user!.id);
+
+  if (!user) {
+    console.error("Error: No user found");
+    return <div>Error: User data not found</div>;
+  }
+
+  const decks = await fetchMyDecks(user.id);
+
   return (
     <>
       <div className="lg:my-6 my-4">

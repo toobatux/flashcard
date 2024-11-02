@@ -76,6 +76,15 @@ interface EditDeckFormProps {
 export default function EditDeckForm({ deckId }: EditDeckFormProps) {
   const [deck, setDeck] = useState<Awaited<ReturnType<typeof fetchDeckById>>>();
   const [cards, setCards] = useState<Card[]>([]);
+  const [isPublic, setIsPublic] = useState(deck?.isPublic || false);
+
+  useEffect(() => {
+    setIsPublic(deck?.isPublic || false); // Update state if deck changes
+  }, [deck?.isPublic]);
+
+  const handleCheckboxChange = () => {
+    setIsPublic(!isPublic);
+  };
 
   // Fetch deck and set initial state on mount
   useEffect(() => {
@@ -147,6 +156,29 @@ export default function EditDeckForm({ deckId }: EditDeckFormProps) {
           className="w-full mt-2 border border-white/10 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:border-blue-500"
         ></textarea>
       </div>
+
+      <label
+        className={`inline-flex items-center mb-4 ${
+          deck?.isCopy
+            ? "opacity-50 cursor-not-allowed"
+            : "opacity-100 cursor-pointer"
+        }`}
+      >
+        <span className="me-3 tracking-wide text-sm text-white/90 font-bold">
+          Public deck
+        </span>
+        <input
+          type="checkbox"
+          name="public"
+          id="public"
+          value="true"
+          onChange={handleCheckboxChange}
+          checked={isPublic}
+          className="sr-only peer"
+          disabled={deck?.isCopy}
+        />
+        <div className="relative inline-block w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+      </label>
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-white/90">Cards</h3>

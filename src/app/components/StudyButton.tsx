@@ -24,7 +24,7 @@ export default function StudyButton({
     >
       <button
         onClick={handleStudy}
-        className={`bg-indigo-600 hover:bg-indigo-500 py-2 px-6 rounded-lg font-bold transition-colors ${
+        className={`bg-indigo-700 hover:bg-indigo-600 py-2 px-6 rounded-lg font-bold transition-colors ${
           isEmpty ? "opacity-50" : ""
         }`}
       >

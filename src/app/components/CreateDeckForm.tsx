@@ -7,6 +7,7 @@ import { useActionState, useState } from "react";
 interface FormData {
   title?: string;
   description?: string;
+  isPublic: boolean;
 }
 
 interface FormErrors {
@@ -21,6 +22,10 @@ export default function CreateDeckForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isPublic: e.target.checked });
   };
 
   const validateForm = () => {
@@ -42,6 +47,7 @@ export default function CreateDeckForm() {
       if (formData.description) {
         deckData.append("description", formData.description);
       }
+      deckData.append("public", formData.isPublic ? "true" : "false");
       createDeck(deckData);
     }
   };
@@ -88,9 +94,27 @@ export default function CreateDeckForm() {
           className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"
         ></textarea>
       </div>
+
+      <label className="inline-flex items-center cursor-pointer">
+        <span className="me-3 tracking-wide text-sm text-white/90 font-bold">
+          Public deck
+        </span>
+        <input
+          type="checkbox"
+          name="public"
+          id="public"
+          checked={formData.isPublic}
+          onChange={handleCheckboxChange}
+          value="true"
+          defaultChecked={true}
+          className="sr-only peer"
+        />
+        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+      </label>
+
       <button
         type="submit"
-        className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl p-2 mt-2 transition-colors"
+        className="bg-indigo-700 hover:bg-indigo-600 text-white font-semibold rounded-xl p-2 mt-2 transition-colors"
       >
         Create Deck
       </button>

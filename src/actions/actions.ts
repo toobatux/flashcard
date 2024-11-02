@@ -50,15 +50,20 @@ type UserWithRelations = Prisma.UserGetPayload<{
 export async function createDeck(formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
+    const isPublic = formData.get("public") === "true";
     const user = await currentUser();
+
+    console.log("isPublic:", isPublic);
 
     const newDeck = await prisma.deck.create({ 
         data: { 
             title, 
             description,
+            isPublic,
             author: {
                 connect: { clerkId: user?.id },
-            }
+            },
+            isCopy: false,
         }});
 
     redirect(`/decks/${newDeck.id}`);
@@ -98,8 +103,9 @@ export async function deleteDeck(id: string) {
     redirect("/decks");
 }
 
-export async function fetchDecks(): Promise<DeckWithRelations[]> {
+export async function fetchPublicDecks(): Promise<DeckWithRelations[]> {
     return await prisma.deck.findMany({
+        where: { isPublic: true },
         include: { cards: true, author: true, students: true, savedBy: true },
     });
 }
@@ -275,6 +281,8 @@ export async function createDeckCopy(deckId: string, clerkId: string) {
                     answer: card.answer,
                 })),
             },
+            isPublic: false,
+            isCopy: true,
         },
     });
 

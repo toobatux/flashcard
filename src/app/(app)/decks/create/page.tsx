@@ -16,12 +16,12 @@ export default function Create() {
           <h1 className="dark:text-white text-xl md:text-2xl lg:text-3xl font-bold">
             New Deck
           </h1>
-          <Link
+          {/* <Link
             href="/decks"
             className="flex items-center p-2 rounded-full hover:bg-white/10 transition-colors"
           >
             <Close />
-          </Link>
+          </Link> */}
         </div>
 
         <div className="flex justify-center mt-4">

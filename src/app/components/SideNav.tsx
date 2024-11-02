@@ -15,13 +15,13 @@ const navLinks: Array<{
   outlined: React.ComponentType;
 }> = [
   { name: "Home", href: "/home", filled: HomeIcon, outlined: HomeOutlined },
-  { name: "Decks", href: "/decks", filled: Layers, outlined: LayersOutlined },
   {
     name: "Library",
     href: "/library",
     filled: Bookmark,
     outlined: BookmarkOutlined,
   },
+  { name: "Decks", href: "/decks", filled: Layers, outlined: LayersOutlined },
 ];
 
 interface SideNavProps {

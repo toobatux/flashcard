@@ -36,6 +36,8 @@ model Deck {
   cards       Card[]
   students    User[]   @relation("LastStudiedDecks")
   savedBy     User[]   @relation("SavedDecks")
+  isPublic    Boolean
+  isCopy      Boolean
 }
 
 model Card {

@@ -15,11 +15,11 @@ import MoreDropdown from "@/app/components/MoreDropdown";
 import KeyboardMessage from "@/app/components/KeyboardMessage";
 
 export default async function DeckPage({
-  params,
+  params: { deckId },
 }: {
   params: { deckId: string };
 }) {
-  const deck = await fetchDeckById(params.deckId);
+  const deck = await fetchDeckById(deckId);
   const cards = deck?.cards;
   const user = await currentUser();
   const userIsAuthor = user?.id === deck?.author.clerkId;
@@ -33,15 +33,23 @@ export default async function DeckPage({
     <>
       <div className="my-2 md:my-4 lg:my-8"></div>
       <div className="relative max-w-3xl mx-auto">
+        {!deck?.isPublic && (
+          <div className="inline-block text-indigo-400 font-semibold text-xs mb-2">
+            Private
+          </div>
+        )}
         <div className="text-xl md:text-2xl lg:text-3xl font-bold flex">
           {deck?.title}
         </div>
-        <div className="text-white/50 mt-2 mb-4">{deck?.description}</div>
+        <div className="text-white/50 mt-3 mb-6">{deck?.description}</div>
 
         <div className="flex w-full justify-between rounded-xl mb-8 lg:mb-8">
           <div>
             <div className="block text-xs text-white/50">Created by</div>
-            <div className="flex items-center mt-2 h-[25px] text-white/80 font-semibold">
+            <Link
+              href={`/profile/${deck?.author.clerkId}`}
+              className="flex items-center mt-2 h-[25px] text-white/80 font-semibold"
+            >
               {deck?.author.imageURL && (
                 <Image
                   src={deck?.author.imageURL}
@@ -52,7 +60,7 @@ export default async function DeckPage({
                 />
               )}
               {deck?.author.username}
-            </div>
+            </Link>
           </div>
           <div className="flex items-center gap-3">
             {/* {userIsAuthor && <EditModal deck={deck!} />} */}
@@ -66,9 +74,13 @@ export default async function DeckPage({
           <Leaderboard deck={deck!} />
         </div>
 
-        <div className="hidden lg:block mb-8">
-          <KeyboardMessage />
-        </div>
+        {deck && deck?.cards.length > 0 ? (
+          <div className="hidden lg:block mb-6">
+            <KeyboardMessage />
+          </div>
+        ) : (
+          <></>
+        )}
 
         {/* Main content */}
         <Cards cards={cards} />
@@ -124,7 +136,24 @@ export default async function DeckPage({
           </div>
         )} */}
 
-        <div className="2xl:hidden w-full">
+        {deck && deck.cards.length > 0 && (
+          <>
+            <div className="mt-[6rem] mb-2 text-lg lg:text-xl font-semibold">
+              Cards in this deck
+            </div>
+            {deck?.cards.map((card, index) => (
+              <div key={card.id}>
+                <div className="flex w-full items-center gap-6 p-3 rounded-lg bg-white/5 mb-2">
+                  <div className="text-white/50 ms-2">{index + 1}</div>
+                  <div className="w-full">{card.question}</div>
+                  <div className="w-full">{card.answer}</div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+
+        <div className="2xl:hidden w-full my-[3rem]">
           <Leaderboard deck={deck!} />
         </div>
 
