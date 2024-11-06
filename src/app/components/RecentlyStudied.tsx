@@ -17,8 +17,8 @@ export function RecentlyStudied({ decks }: RecentlyStudiedProps) {
     <>
       {decks && decks.length > 0 ? (
         <>
-          <div className="my-12">
-            <div className="text-lg font-semibold mb-3">Recently studied</div>
+          <div className="my-8 lg:my-12">
+            <div className="text-lg text-white/70 mb-3">Recently studied</div>
             <div className="rounded-lg">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {decks?.map((deck) => (

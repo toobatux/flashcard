@@ -17,13 +17,16 @@ export default async function ProfilePage({
         <div className="flex items-center gap-4">
           <Image
             src={user!.imageURL}
-            width={60}
-            height={60}
+            width={100}
+            height={100}
             alt={user?.username || " "}
-            className="rounded-full"
+            className="rounded-full object-cover w-16 h-16"
           />
-          <div className="text-2xl text-white font-semibold">
-            {user?.username}
+          <div className="flex flex-col">
+            <div className="text-2xl text-white font-semibold">
+              {user?.username}
+            </div>
+            <div className="text-white/50">{user?.score} xp</div>
           </div>
         </div>
       </div>

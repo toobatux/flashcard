@@ -14,6 +14,7 @@ import Link from "next/link";
 import Searchbar from "./Searchbar";
 import { Add, Menu } from "@mui/icons-material";
 import SideNav from "./SideNav";
+import NewButton from "./NewButton";
 
 const navLinks = [
   { name: "Home", href: "/home" },
@@ -54,12 +55,13 @@ const Navbar = () => {
                 </div>
                 <div className="flex items-center space-x-4">
                   {isSignedIn && (
-                    <Link
-                      href="/decks/create"
-                      className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-indigo-700 border-2 border-indigo-700 hover:border-indigo-600 hover:text-indigo-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
-                    >
-                      <Add className="" />
-                    </Link>
+                    // <Link
+                    //   href="/decks/create"
+                    //   className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-indigo-700 border-2 border-indigo-700 hover:border-indigo-600 hover:text-indigo-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+                    // >
+                    //   <Add className="" />
+                    // </Link>
+                    <NewButton />
                   )}
                   <ClerkLoading>
                     <p>...</p>

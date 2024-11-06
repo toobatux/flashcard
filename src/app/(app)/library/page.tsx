@@ -1,5 +1,3 @@
-import { Add } from "@mui/icons-material";
-import Link from "next/link";
 import React from "react";
 import { fetchMyDecks, getUser } from "@/actions/actions";
 import { auth, currentUser } from "@clerk/nextjs/server";
@@ -33,13 +31,15 @@ export default async function MyDecks() {
           </div>
         </div>
 
-        <div className="font-semibold mb-3 mt-6">My Decks</div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {decks.map((deck) => (
-            <div key={deck.id}>
-              <MyDecksCard deck={deck} />
-            </div>
-          ))}
+        <div className="my-8 lg:my-12">
+          <div className="mb-3 text-lg text-white/70">My Decks</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {decks.map((deck) => (
+              <div key={deck.id}>
+                <MyDecksCard deck={deck} />
+              </div>
+            ))}
+          </div>
         </div>
 
         <SavedDecks clerkId={clerkUser!.id} />

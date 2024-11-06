@@ -13,27 +13,29 @@ type DeckWithRelations = Prisma.DeckGetPayload<{
 
 const Leaderboard = ({ deck }: LeaderboardProps) => {
   const isEmpty = deck.students.length === 0;
+  const sortedStudents = [...deck.students].sort((a, b) => b.score - a.score);
+
   return (
     <>
       {!isEmpty && (
         <>
-          <div className="mt-[3rem] mb-2 text-lg lg:text-xl font-semibold">
+          <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
             Leaderboard
           </div>
-          <div className="p-2 border border-white/5 rounded-lg space-y-1 max-h-[10rem] 2xl:max-h-[15rem] overflow-auto">
-            {deck?.students.map((student, index) => (
+          <div className="p-2 border-2 border-white/5 rounded-lg space-y-1 max-h-[10rem] 2xl:max-h-[15rem] overflow-auto">
+            {sortedStudents.map((student, index) => (
               <Link
                 key={index}
                 href={`/profile/${student.clerkId}`}
-                className="flex w-full justify-between p-2 hover:bg-white/5 rounded transition-colors"
+                className="flex w-full items-center justify-between p-2 hover:bg-white/5 rounded transition-colors"
               >
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   <Image
                     src={student.imageURL}
-                    width={20}
-                    height={20}
+                    width={100}
+                    height={100}
                     alt="Avatar"
-                    className="rounded-full"
+                    className="rounded-full object-cover w-6 h-6"
                   />
                   <div className="text-sm">{student.username}</div>
                 </div>

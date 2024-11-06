@@ -1,15 +1,9 @@
-import {
-  createCard,
-  fetchDeckById,
-  updateRecentDecks,
-} from "@/actions/actions";
+import { fetchDeckById } from "@/actions/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import Cards from "@/app/components/Cards";
 import StudyButton from "@/app/components/StudyButton";
-import EditModal from "@/app/components/EditModal";
-import { MoreHoriz } from "@mui/icons-material";
 import Leaderboard from "@/app/components/Leaderboard";
 import MoreDropdown from "@/app/components/MoreDropdown";
 import KeyboardMessage from "@/app/components/KeyboardMessage";
@@ -43,19 +37,19 @@ export default async function DeckPage({
         </div>
         <div className="text-white/50 mt-3 mb-6">{deck?.description}</div>
 
-        <div className="flex w-full justify-between rounded-xl mb-8 lg:mb-8">
-          <div>
-            <div className="block text-xs text-white/50">Created by</div>
+        <div className="block text-xs text-white/50">Created by</div>
+        <div className="flex w-full items-center justify-between rounded-xl mt-1 mb-8 lg:mb-8">
+          <div className="flex h-full">
             <Link
               href={`/profile/${deck?.author.clerkId}`}
-              className="flex items-center mt-2 h-[25px] text-white/80 font-semibold"
+              className="flex items-center text-white/80 font-semibold hover:underline"
             >
               {deck?.author.imageURL && (
                 <Image
                   src={deck?.author.imageURL}
-                  width={25}
-                  height={25}
-                  className="rounded-full me-2"
+                  width={100}
+                  height={100}
+                  className="rounded-full me-2 object-cover w-8 h-8"
                   alt="Avatar"
                 />
               )}
@@ -70,7 +64,7 @@ export default async function DeckPage({
         </div>
 
         {/* Leaderboard positioned at the top-right */}
-        <div className="hidden 2xl:block absolute top-0 -right-[20rem] w-1/3 p-4">
+        <div className="hidden 2xl:block absolute top-0 -right-[23rem] w-[20rem] p-4">
           <Leaderboard deck={deck!} />
         </div>
 
@@ -135,31 +129,39 @@ export default async function DeckPage({
             </div>
           </div>
         )} */}
-
         {deck && deck.cards.length > 0 && (
           <>
-            <div className="mt-[6rem] mb-2 text-lg lg:text-xl font-semibold">
+            <div className="my-8 mb-4 text-lg lg:text-xl font-semibold">
               Cards in this deck
             </div>
-            {deck?.cards.map((card, index) => (
-              <div key={card.id}>
-                <div className="flex w-full items-center gap-6 p-3 rounded-lg bg-white/5 mb-2">
-                  <div className="text-white/50 ms-2">{index + 1}</div>
-                  <div className="w-full">{card.question}</div>
-                  <div className="w-full">{card.answer}</div>
-                </div>
+            <div className="border-2 border-white/5 rounded-lg">
+              <div className="flex w-full items-center gap-3 ps-3 p-3 text-white/50">
+                <div className="ms-2 w-[5rem]">#</div>
+                <div className="ms-2 w-full">Question</div>
+                <div className="ms-2 w-full">Answer</div>
               </div>
-            ))}
+              {deck?.cards.map((card, index) => (
+                <div key={card.id}>
+                  <div className="flex w-full items-center gap-6 p-3 border-t-2 border-white/5 hover:bg-white/5">
+                    <div className="text-white/50 ms-2 w-[5rem]">
+                      {index + 1}
+                    </div>
+                    <div className="w-full font-semibold">{card.question}</div>
+                    <div className="w-full me-2">{card.answer}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </>
         )}
 
-        <div className="2xl:hidden w-full my-[3rem]">
+        <div className="2xl:hidden w-full my-8">
           <Leaderboard deck={deck!} />
         </div>
 
         <div className="mt-8">
           <div className="text-white/50 text-xs">Last updated</div>
-          <div className="flex text-white/75 text-sm mt-2 h-[25px] items-center">
+          <div className="flex text-white/75 text-sm mt-1 h-[25px] items-center">
             {deck?.updatedOn.toDateString()}
           </div>
         </div>

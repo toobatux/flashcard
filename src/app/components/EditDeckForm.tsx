@@ -150,7 +150,7 @@ export default function EditDeckForm({ deckId }: EditDeckFormProps) {
         <textarea
           name="description"
           id="desc"
-          defaultValue={deck?.description}
+          defaultValue={deck?.description || ""}
           rows={2}
           placeholder="Deck description"
           className="w-full mt-2 border border-white/10 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:border-blue-500"
@@ -180,47 +180,56 @@ export default function EditDeckForm({ deckId }: EditDeckFormProps) {
         <div className="relative inline-block w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
       </label>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white/90">Cards</h3>
+      <div className="mt-6 mb-2 text-lg lg:text-xl font-semibold">
+        Cards in this deck
+      </div>
+      <div className="">
+        <div className="flex w-full items-center gap-4 py-3 text-white/50">
+          <div className="w-[4rem]">#</div>
+          <div className="w-full">Question</div>
+          <div className="w-full">Answer</div>
+          <div className="w-[5rem]"></div>
+        </div>
         {cards.map((card, index) => (
-          <div key={index} className="flex gap-4 items-center">
-            <input
-              type="hidden"
-              name={`cards[${index}][id]`}
-              value={card.id} // Track card ID to update existing cards
-            />
-            <div className="text-white/50">{index + 1}</div>
-            <input
-              type="text"
-              name={`cards[${index}][question]`}
-              placeholder="Question"
-              value={card.question}
-              onChange={(e) =>
-                handleCardChange(index, "question", e.target.value)
-              }
-              className="w-full border border-white/10 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:border-blue-500"
-            />
-            <input
-              type="text"
-              name={`cards[${index}][answer]`}
-              placeholder="Answer"
-              value={card.answer}
-              onChange={(e) =>
-                handleCardChange(index, "answer", e.target.value)
-              }
-              className="w-full border border-white/10 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:border-blue-500"
-            />
-            <button
-              type="button"
-              onClick={() => removeCard(index)}
-              className="flex items-center p-2 rounded-full hover:bg-white/10 transition-colors text-white/50 hover:text-white"
-            >
-              <Close />
-            </button>
+          <div key={card.id}>
+            <div className="flex w-full items-center py-3 border-t-2 border-white/5 group">
+              <div className="flex w-full gap-4 items-center">
+                <div className="text-white/50 w-[4rem]">{index + 1}</div>
+                <input
+                  type="text"
+                  name={`cards[${index}][question]`}
+                  placeholder="Question"
+                  value={card.question}
+                  onChange={(e) =>
+                    handleCardChange(index, "question", e.target.value)
+                  }
+                  className="w-full font-semibold bg-white/5 p-2 rounded-lg"
+                />
+                <input
+                  type="text"
+                  name={`cards[${index}][answer]`}
+                  placeholder="Answer"
+                  value={card.answer}
+                  onChange={(e) =>
+                    handleCardChange(index, "answer", e.target.value)
+                  }
+                  className="w-full bg-white/5 p-2 rounded-lg"
+                />
+              </div>
+              <div className="flex w-[4rem] justify-center items-center">
+                <button
+                  type="button"
+                  onClick={() => removeCard(index)}
+                  className="hidden group-hover:flex items-center p-1 rounded-full hover:bg-white/10 transition-colors text-white/50 hover:text-white"
+                >
+                  <Close />
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
-      <div className="flex items-center mt-4">
+      <div className="flex items-center">
         <hr className="w-full border border-white/15" />
         <button
           type="button"

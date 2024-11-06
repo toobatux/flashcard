@@ -23,6 +23,7 @@ model User {
   lastStudiedDecks Deck[]  @relation("LastStudiedDecks")
   savedDecks       Deck[]  @relation("SavedDecks")
   score            Int     @default(0)
+  guides           Guide[]
 }
 
 model Deck {
@@ -38,6 +39,7 @@ model Deck {
   savedBy     User[]   @relation("SavedDecks")
   isPublic    Boolean
   isCopy      Boolean
+  guide       Guide?
 }
 
 model Card {
@@ -47,4 +49,16 @@ model Card {
   answer   String @db.VarChar(500)
   deckId   String
   deck     Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+}
+
+model Guide {
+  id        String   @id @default(cuid())
+  title     String   @db.VarChar(255)
+  content   Json
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdOn DateTime @default(now())
+  updatedOn DateTime @updatedAt
+  deckId    String?  @unique
+  deck      Deck?    @relation(fields: [deckId], references: [id], onDelete: SetNull)
 }

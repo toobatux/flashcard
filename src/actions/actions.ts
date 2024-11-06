@@ -76,21 +76,35 @@ export async function editDeck(formData: FormData) {
     const user = await currentUser();
     console.log("Updating deck:" + id)
 
-    // const cards = JSON.parse(formData.get("cards") as string) as Array<{
-    //     id?: number;
-    //     question: string;
-    //     answer: string;
-    //   }>;
+    const cards = JSON.parse(formData.get("cards") as string) as Array<{
+        question: string;
+        answer: string;
+      }>;
 
-    await prisma.deck.update({ 
+      await prisma.deck.update({
         where: { id },
-        data: { 
-            title, 
-            description,
-            author: {
-                connect: { clerkId: user?.id },
-            }
-        }});
+        data: {
+          title,
+          description,
+          author: {
+            connect: { clerkId: user?.id },
+          },
+        },
+      });
+    
+      // Delete existing cards for the deck
+      await prisma.card.deleteMany({
+        where: { deckId: id },
+      });
+    
+      // Create new cards for the deck
+      await prisma.card.createMany({
+        data: cards.map((card) => ({
+          question: card.question,
+          answer: card.answer,
+          deckId: id,
+        })),
+      });
 
     redirect(`/decks/${id}`);
 }
@@ -288,6 +302,45 @@ export async function createDeckCopy(deckId: string, clerkId: string) {
 
     console.log("Deck copied successfully:", newDeck);
     redirect(`/decks/${newDeck.id}`)
+}
+
+export async function createGuide(formData: FormData) {
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string | null;
+    const user = await currentUser();
+
+    const parsedContent = content ? JSON.parse(content) : null;
+
+    const newGuide = await prisma.guide.create({
+        data: {
+            title,
+            content: parsedContent,
+            author: {
+                connect: { clerkId: user?.id },
+            }
+        }
+    });
+    
+    redirect(`/guides/${newGuide.id}`);
+}
+
+export async function fetchGuideById(guideId: string) {
+    const guide = await prisma.guide.findUnique({
+        where: { id: guideId },
+        include: { author: true },
+    });
+
+    if(!guide) {
+        notFound()
+    }
+
+    return guide;
+}
+
+export async function fetchAllGuides() {
+    return await prisma.guide.findMany({
+        include: { author: true }
+    });
 }
 
 // type User = {
