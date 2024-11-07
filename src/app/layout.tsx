@@ -31,7 +31,7 @@ export default function RootLayout({
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-neutral-900`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-neutral-200 bg-opacity-50 dark:bg-neutral-900`}
         >
           {/* <ClerkLoading>
             <div className="flex w-full h-screen justify-center items-center">

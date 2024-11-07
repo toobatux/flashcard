@@ -6,7 +6,7 @@ import { notFound, redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 
 type DeckWithRelations = Prisma.DeckGetPayload<{
-    include: { cards: true; author: true, students: true, savedBy: true };
+    include: { cards: true; author: true, students: true, savedBy: true, guide: true };
   }>;
 
 // export type DeckWithRelations = {
@@ -120,21 +120,21 @@ export async function deleteDeck(id: string) {
 export async function fetchPublicDecks(): Promise<DeckWithRelations[]> {
     return await prisma.deck.findMany({
         where: { isPublic: true },
-        include: { cards: true, author: true, students: true, savedBy: true },
+        include: { cards: true, author: true, students: true, savedBy: true, guide: true },
     });
 }
 
 export async function fetchMyDecks(authorId: string): Promise<DeckWithRelations[]> {
     return await prisma.deck.findMany({
         where: { authorId: authorId },
-        include: { cards: true, author: true, students: true, savedBy: true },
+        include: { cards: true, author: true, students: true, savedBy: true, guide: true },
     });
 }
 
 export async function fetchDeckById(id: string): Promise<DeckWithRelations | null> {
     const deck = await prisma.deck.findUnique({
         where: { id },
-        include: { cards: true, author: true, students: true, savedBy: true },
+        include: { cards: true, author: true, students: true, savedBy: true, guide: true, },
     });
 
     if(!deck) {
@@ -306,6 +306,7 @@ export async function createDeckCopy(deckId: string, clerkId: string) {
 
 export async function createGuide(formData: FormData) {
     const title = formData.get("title") as string;
+    const deckId = formData.get("deckId") as string | null;
     const content = formData.get("content") as string | null;
     const user = await currentUser();
 
@@ -317,7 +318,8 @@ export async function createGuide(formData: FormData) {
             content: parsedContent,
             author: {
                 connect: { clerkId: user?.id },
-            }
+            },
+            deck: deckId ? { connect: { id: deckId } } : undefined,
         }
     });
     
@@ -327,7 +329,7 @@ export async function createGuide(formData: FormData) {
 export async function fetchGuideById(guideId: string) {
     const guide = await prisma.guide.findUnique({
         where: { id: guideId },
-        include: { author: true },
+        include: { author: true, deck: { include: { cards: true, author: true }} },
     });
 
     if(!guide) {

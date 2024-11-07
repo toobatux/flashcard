@@ -9,10 +9,12 @@ const NewGuide = async () => {
   return (
     <>
       <div className="lg:my-6 my-4">
-        <div className="text-xl md:text-2xl lg:text-3xl font-bold">
-          New Guide
+        <div className="relative max-w-3xl mx-auto">
+          <div className="text-xl md:text-2xl lg:text-3xl font-bold">
+            New Guide
+          </div>
+          <NewGuideForm myDecks={myDecks} />
         </div>
-        <NewGuideForm myDecks={myDecks} />
       </div>
     </>
   );

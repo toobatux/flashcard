@@ -27,21 +27,25 @@ body {
 }
 
 h2 {
-  @apply text-2xl font-bold mt-10 mb-2;
+  @apply text-3xl font-bold mt-14 mb-6;
 }
 
 h3 {
-  @apply text-lg font-bold mt-8 mb-2;
+  @apply text-xl font-bold mt-8 mb-4;
 }
 
 p {
-  @apply mb-2 text-white/60;
+  @apply mt-4 text-white/75 leading-8;
 }
 
 ol {
-  @apply list-decimal ms-4;
+  @apply list-decimal ms-5;
 }
 
 ul {
-  @apply list-disc ms-4;
+  @apply list-disc ms-5;
+}
+
+li > p {
+  @apply mt-1;
 }

@@ -1,4 +1,5 @@
 import { fetchGuideById } from "@/actions/actions";
+import MyDecksCard from "@/app/components/MyDecksCard";
 import { renderTiptapContent } from "@/app/components/TipTapContent";
 import { MoreHoriz, ThumbUpOutlined } from "@mui/icons-material";
 import Image from "next/image";
@@ -16,20 +17,10 @@ const GuidePage = async ({
     <>
       <div className="my-2 md:my-4 lg:my-8"></div>
       <div className="relative max-w-3xl mx-auto">
-        <div className="text-3xl font-bold">{guide.title}</div>
-        {/* <div className="flex w-6 h-6 rounded-full mb-4">
-          <Image
-            src={guide.author.imageURL}
-            width={100}
-            height={100}
-            className="object-cover rounded-full me-2"
-            alt="Avatar"
-          />
-          {guide.author.username}
-        </div> */}
+        <div className="text-4xl font-bold leading-[3rem]">{guide.title}</div>
         <div className="my-4">
           <div className="block text-xs text-white/50 mb-2">Written by</div>
-          <div className="flex w-full items-center justify-between rounded-xl mt-1 mb-8 lg:mb-8">
+          <div className="flex w-full items-center justify-between rounded-xl mt-1 mb-4">
             <div className="flex h-full">
               <Link
                 href={`/profile/${guide.author.clerkId}`}
@@ -62,29 +53,22 @@ const GuidePage = async ({
               </button>
             </div>
           </div>
-          {/* <div className="flex w-full items-center">
-            <Link
-              href={`/profile/${guide.author.clerkId}`}
-              className="flex items-center text-white/80 font-semibold hover:underline"
-            >
-              {guide.author.imageURL && (
-                <Image
-                  src={guide.author.imageURL}
-                  width={100}
-                  height={100}
-                  className="rounded-full me-2 object-cover w-8 h-8"
-                  alt="Avatar"
-                />
-              )}
-              {guide.author.username}
-            </Link>
-          </div> */}
         </div>
         <div className="text-xs text-white/50">
           Last updated: {guide.updatedOn.toDateString()}
         </div>
+
+        {guide.deck && (
+          <div className="mb-8">
+            <div className="mt-8 mb-3 text-lg text-white/70">Review deck</div>
+            <MyDecksCard deck={guide.deck} />
+          </div>
+        )}
+
         <hr className="border border-white/10 mt-4 mb-8" />
+
         <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        <div className="my-12"></div>
       </div>
     </>
   );

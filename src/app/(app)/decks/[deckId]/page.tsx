@@ -32,17 +32,21 @@ export default async function DeckPage({
             Private
           </div>
         )}
-        <div className="text-xl md:text-2xl lg:text-3xl font-bold flex">
+        <div className="text-black dark:text-white text-xl md:text-2xl lg:text-3xl font-bold flex">
           {deck?.title}
         </div>
-        <div className="text-white/50 mt-3 mb-6">{deck?.description}</div>
+        <div className="text-black dark:text-white/50 mt-3 mb-6">
+          {deck?.description}
+        </div>
 
-        <div className="block text-xs text-white/50">Created by</div>
+        <div className="block text-xs text-black/90 dark:text-white/50">
+          Created by
+        </div>
         <div className="flex w-full items-center justify-between rounded-xl mt-1 mb-8 lg:mb-8">
           <div className="flex h-full">
             <Link
               href={`/profile/${deck?.author.clerkId}`}
-              className="flex items-center text-white/80 font-semibold hover:underline"
+              className="flex items-center text-black dark:text-white/80 font-semibold hover:underline"
             >
               {deck?.author.imageURL && (
                 <Image
@@ -65,6 +69,19 @@ export default async function DeckPage({
 
         {/* Leaderboard positioned at the top-right */}
         <div className="hidden 2xl:block absolute top-0 -right-[23rem] w-[20rem] p-4">
+          {deck?.guide && (
+            <>
+              <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
+                Read the guide
+              </div>
+              <Link href={`/guides/${deck.guide.id}`}>
+                <div className="p-3 rounded-lg bg-white/5 hover:bg-white/10">
+                  <div className="font-bold mb-2">{deck.guide.title}</div>
+                </div>
+              </Link>
+            </>
+          )}
+
           <Leaderboard deck={deck!} />
         </div>
 
@@ -156,6 +173,19 @@ export default async function DeckPage({
         )}
 
         <div className="2xl:hidden w-full my-8">
+          {deck?.guide && (
+            <>
+              <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
+                Read the guide
+              </div>
+              <Link href={`/guides/${deck.guide.id}`}>
+                <div className="p-3 rounded-lg bg-white/5 hover:bg-white/10">
+                  <div className="font-bold mb-2">{deck.guide.title}</div>
+                </div>
+              </Link>
+            </>
+          )}
+
           <Leaderboard deck={deck!} />
         </div>
 

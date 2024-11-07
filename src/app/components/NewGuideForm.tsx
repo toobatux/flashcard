@@ -13,6 +13,7 @@ interface NewGuideFormProps {
 const NewGuideForm = ({ myDecks }: NewGuideFormProps) => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<JSONContent | null>(null);
+  const [selectedDeckId, setSelectedDeckId] = useState<string | null>(null);
 
   const handleEditorChange = (newContent: JSONContent) => {
     setContent(newContent);
@@ -29,6 +30,10 @@ const NewGuideForm = ({ myDecks }: NewGuideFormProps) => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", JSON.stringify(content));
+
+    if (selectedDeckId) {
+      formData.append("deckId", selectedDeckId);
+    }
 
     createGuide(formData);
   };
@@ -63,11 +68,20 @@ const NewGuideForm = ({ myDecks }: NewGuideFormProps) => {
             </label>
             <select
               id="deckDropdown"
+              onChange={(e) => setSelectedDeckId(e.target.value)}
               className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"
             >
-              <option className="bg-neutral-800">None</option>
+              <option value="" className="bg-neutral-800">
+                None
+              </option>
               {myDecks.map((deck) => (
-                <option className="bg-neutral-800">{deck.title}</option>
+                <option
+                  key={deck.id}
+                  value={deck.id}
+                  className="bg-neutral-800"
+                >
+                  {deck.title}
+                </option>
               ))}
             </select>
           </div>

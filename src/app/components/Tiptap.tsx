@@ -7,6 +7,9 @@ import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
+import Text from "@tiptap/extension-text";
+import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 
@@ -20,6 +23,9 @@ const Tiptap = ({ onChange }: TipTapProps) => {
       StarterKit,
       ListItem,
       Image,
+      Text,
+      TextStyle,
+      Color,
       Heading.configure({
         HTMLAttributes: {
           //class: "font-bold capitalize",
@@ -41,7 +47,7 @@ const Tiptap = ({ onChange }: TipTapProps) => {
     editorProps: {
       attributes: {
         class:
-          "shadow appearance-none min-h-[150px] border rounded w-full border-white/15 bg-white/5 py-1.5 px-2 text-white text-sm leading-tight focus:outline-none focus:shadow-outline",
+          "shadow appearance-none min-h-[150px] max-h-[400px] overflow-auto border rounded w-full border-white/15 bg-white/5 py-1.5 px-2 text-white text-sm leading-tight focus:outline-none focus:shadow-outline",
       },
     },
     content: "<p>Start writing...</p>",
@@ -124,6 +130,27 @@ const Tiptap = ({ onChange }: TipTapProps) => {
             title="Ordered List"
           >
             <FormatListNumberedIcon />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => editor.chain().focus().setColor("#6366f1").run()}
+            className={`w-[42px] h-[42px] p-2 rounded hover:bg-white/5 flex items-center justify-center
+              ${
+                editor.isActive("textStyle", { color: "#6366f1" })
+                  ? "bg-white/10"
+                  : ""
+              }
+            `}
+          >
+            <div className="w-4 h-4 rounded bg-indigo-500"></div>
+          </button>
+
+          <button
+            onClick={() => editor.chain().focus().unsetColor().run()}
+            data-testid="unsetColor"
+          >
+            Unset color
           </button>
         </div>
         <EditorContent editor={editor} />

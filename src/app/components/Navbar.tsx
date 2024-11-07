@@ -31,23 +31,23 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-40 w-full h-16 bg-neutral-900 flex items-center border-b border-white/15">
-        <div className="flex w-full h-full justify-center ms-2 xl:ms-4 me-4">
+      <div className="sticky top-0 z-40 w-full h-16 bg-black dark:bg-neutral-900 flex items-center border-b border-black dark:border-white/15">
+        <div className="flex w-full h-full justify-center ms-2 me-4">
           <div className="flex-auto w-full h-full flex items-center">
             <div className="w-full">
               <div className="relative flex justify-between">
                 <div className="flex items-center">
-                  <div className="hidden xl:block">
+                  {/* <div className="hidden xl:block">
                     <Link
                       href="/"
                       className="text-lg font-semibold me-5 focus:outline-none focus-visible:ring-white focus-visible:ring-2 rounded"
                     >
                       Flashcards
                     </Link>
-                  </div>
+                  </div> */}
                   <button
                     onClick={toggleSideNav}
-                    className="flex items-center xl:hidden m-2 px-3 py-2 rounded-lg hover:bg-white/5"
+                    className="flex items-center m-2 px-3 py-2 rounded-lg hover:bg-white/5"
                   >
                     <Menu />
                   </button>
@@ -91,7 +91,7 @@ const Navbar = () => {
       {isSideNavOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/50 z-30 xl:hidden"
+            className="fixed inset-0 bg-black/50 z-30"
             onClick={toggleSideNav}
           >
             <SideNav isOpenMobile={isSideNavOpen} />
