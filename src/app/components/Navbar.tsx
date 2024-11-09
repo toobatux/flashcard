@@ -64,7 +64,7 @@ const Navbar = () => {
                     <NewButton />
                   )}
                   <ClerkLoading>
-                    <p>...</p>
+                    <div className="w-[40px] h-[40px] bg-white/5 animate-pulse rounded-full"></div>
                   </ClerkLoading>
                   <ClerkLoaded>
                     <SignedOut>

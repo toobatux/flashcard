@@ -1,3 +1,4 @@
+import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import { ChevronRight } from "@mui/icons-material";
 import { Deck, Prisma } from "@prisma/client";
 import Image from "next/image";
@@ -48,7 +49,7 @@ const DeckCard = ({ deck }: DeckCardProps) => {
       href={`/decks/${deck?.id}`}
       className="focus:outline-none focus-visible:ring-white focus-visible:ring-2 rounded-lg"
     >
-      <div className="text-sm relative h-[140px] p-4 bg-white/5 hover:bg-white/10 group rounded-lg shadow-lg transition-all flex flex-col justify-between">
+      <div className="text-sm relative h-[140px] p-4 bg-white/5 hover:bg-white/10 group rounded-xl shadow-lg transition-all flex flex-col justify-between">
         <div className="text-white/85 h-[40px] font-semibold me-5 line-clamp-2 overflow-ellipsis">
           {deck?.title}
         </div>
@@ -59,13 +60,18 @@ const DeckCard = ({ deck }: DeckCardProps) => {
         </div>
         <div className="flex items-center text-white/60">
           <div className="flex w-5 h-5 me-2">
-            <Image
-              src={deck!.author.imageURL}
-              width={100}
-              height={100}
-              alt="Avatar"
-              className="object-cover rounded-full"
-            />
+            <ClerkLoading>
+              <div className="w-full h-full rounded-full bg-white/5 animate-pulse"></div>
+            </ClerkLoading>
+            <ClerkLoaded>
+              <Image
+                src={deck!.author.imageURL}
+                width={100}
+                height={100}
+                alt="Avatar"
+                className="object-cover rounded-full"
+              />
+            </ClerkLoaded>
           </div>
           <div className="text-sm">{deck?.author.username}</div>
         </div>

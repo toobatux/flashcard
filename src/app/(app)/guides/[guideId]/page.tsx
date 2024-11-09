@@ -55,7 +55,8 @@ const GuidePage = async ({
           </div>
         </div>
         <div className="text-xs text-white/50">
-          Last updated: {guide.updatedOn.toDateString()}
+          Last updated:{" "}
+          {guide.updatedOn.toDateString().split(" ").slice(1).join(" ")}
         </div>
 
         {guide.deck && (

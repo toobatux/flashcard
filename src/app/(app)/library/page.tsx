@@ -42,7 +42,10 @@ export default async function MyDecks() {
           </div>
         </div>
 
-        <SavedDecks clerkId={clerkUser!.id} />
+        <div className="my-8 lg:my-12">
+          <div className="mb-3 text-lg text-white/70">Saved Decks</div>
+          <SavedDecks clerkId={clerkUser!.id} />
+        </div>
       </div>
     </>
   );

@@ -1,12 +1,15 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
+import { User } from "@prisma/client";
 import React, { useEffect, useState } from "react";
+import GreetingSkeleton from "./loading/GreetingSkeleton";
 
-const Greeting = () => {
-  const { user } = useUser();
-  const [greeting, setGreeting] = useState("");
+interface GreetingProps {
+  user: User | null;
+}
+
+const Greeting = ({ user }: GreetingProps) => {
+  const [greeting, setGreeting] = useState<string | null>(null);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -24,9 +27,12 @@ const Greeting = () => {
     setGreeting(getGreeting());
   }, []);
 
+  if (!user || greeting === null) {
+    return <GreetingSkeleton />;
+  }
+
   return (
     <>
-      {/* <div>Hello, {user?.emailAddresses[0].toString()}</div> */}
       <div className="text-xl md:text-2xl lg:text-3xl font-bold">
         {greeting}, {user?.username}
       </div>

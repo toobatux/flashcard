@@ -59,6 +59,21 @@ const NewGuideForm = ({ myDecks }: NewGuideFormProps) => {
               required
             />
           </div>
+          <div className="inline-block">
+            <label
+              htmlFor="file"
+              className="block tracking-wide text-sm text-white/90 font-bold"
+            >
+              Thumbnail
+            </label>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="images/*"
+              className="mt-2"
+            />
+          </div>
           <div>
             <label
               htmlFor="deck"

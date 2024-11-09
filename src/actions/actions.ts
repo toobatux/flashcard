@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { Deck, User, Card } from "@prisma/client";
 import { notFound, redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 type DeckWithRelations = Prisma.DeckGetPayload<{
     include: { cards: true; author: true, students: true, savedBy: true, guide: true };
@@ -307,6 +308,7 @@ export async function createDeckCopy(deckId: string, clerkId: string) {
 export async function createGuide(formData: FormData) {
     const title = formData.get("title") as string;
     const deckId = formData.get("deckId") as string | null;
+    const thumbnail = formData.get("file");
     const content = formData.get("content") as string | null;
     const user = await currentUser();
 
@@ -343,6 +345,42 @@ export async function fetchAllGuides() {
     return await prisma.guide.findMany({
         include: { author: true }
     });
+}
+
+// APP_AWS_REGION
+// APP_AWS_ACCESS_KEY
+// APP_AWS_SECRET_KEY
+// AWS_S3_BUCKET_NAME
+
+const region = process.env.APP_AWS_REGION;
+const accessKeyId = process.env.APP_AWS_ACCESS_KEY;
+const secretAccessKey = process.env.APP_AWS_SECRET_KEY;
+
+if (!region || !accessKeyId || !secretAccessKey) {
+    throw new Error("AWS configuration environment variables are not set.");
+}
+
+const s3Client = new S3Client({
+    region,
+    credentials: {
+        accessKeyId,
+        secretAccessKey
+    }
+});
+
+export async function UploadImage(prevState, formData) {
+    try {
+        const file = formData.get("file");
+
+        const buffer = Buffer.from(await file.arrayBuffer());
+        await UploadFileToS3(buffer, file.name);
+    } catch (error) {
+        return
+    }
+}
+
+export async function UploadFileToS3(file, fileName) {
+
 }
 
 // type User = {

@@ -61,4 +61,5 @@ model Guide {
   updatedOn DateTime @updatedAt
   deckId    String?  @unique
   deck      Deck?    @relation(fields: [deckId], references: [id], onDelete: SetNull)
+  imageURL  String?
 }
