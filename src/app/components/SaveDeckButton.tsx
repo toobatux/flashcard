@@ -63,52 +63,7 @@ import { useEffect, useState } from "react";
 interface SaveDeckButtonProps {
   clerkId: string;
   deckId: string;
-  // isSaved: boolean | null;
-  // setIsSaved: (isSaved: boolean) => void;
 }
-
-// export default function SaveDeckButton({
-//   userId,
-//   deckId,
-//   isSaved,
-//   setIsSaved,
-// }: SaveDeckButtonProps) {
-//   const handleSaveDeck = async () => {
-//     if (userId && deckId) {
-//       await addDeckToSaved(userId, deckId);
-//       setIsSaved(true); // Update state after saving
-//     }
-//   };
-
-//   const handleRemoveDeck = async () => {
-//     if (userId && deckId) {
-//       await removeDeckFromSaved(userId, deckId);
-//       setIsSaved(false); // Update state after removing
-//     }
-//   };
-
-//   if (isSaved === null) return <p>Loading...</p>; // Optional loading state
-
-//   return (
-//     <button
-//       onClick={isSaved ? handleRemoveDeck : handleSaveDeck}
-//       className="flex w-full items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
-//       role="menuitem"
-//     >
-//       {isSaved ? (
-//         <>
-//           <BookmarkRemoveOutlined className="text-white/50" />
-//           Remove from library
-//         </>
-//       ) : (
-//         <>
-//           <BookmarkAddOutlined className="text-white/50" />
-//           Add to library
-//         </>
-//       )}
-//     </button>
-//   );
-// }
 
 const SaveDeckButton = ({ clerkId, deckId }: SaveDeckButtonProps) => {
   const [isSaved, setIsSaved] = useState<boolean | null>(null);

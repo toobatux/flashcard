@@ -15,6 +15,7 @@ import Searchbar from "./Searchbar";
 import { Add, Menu } from "@mui/icons-material";
 import SideNav from "./SideNav";
 import NewButton from "./NewButton";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/home" },
@@ -25,18 +26,21 @@ const Navbar = () => {
   const { isSignedIn } = useUser();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 
+  const isLanding = usePathname() === "/";
+
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
 
   return (
     <>
-      <div className="sticky top-0 z-40 w-full h-16 bg-black dark:bg-neutral-900 flex items-center border-b border-black dark:border-white/15">
+      {/* border-b border-black dark:border-white/15 */}
+      <div className="sticky top-0 z-40 w-full h-16 bg-black dark:bg-neutral-900 border-b border-black dark:border-white/10 flex items-center">
         <div className="flex w-full h-full justify-center ms-2 me-4">
           <div className="flex-auto w-full h-full flex items-center">
             <div className="w-full">
               <div className="relative flex justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center gap-2 w-1/4">
                   {/* <div className="hidden xl:block">
                     <Link
                       href="/"
@@ -45,24 +49,33 @@ const Navbar = () => {
                       Flashcards
                     </Link>
                   </div> */}
-                  <button
-                    onClick={toggleSideNav}
-                    className="flex items-center m-2 px-3 py-2 rounded-lg hover:bg-white/5"
-                  >
-                    <Menu />
-                  </button>
+                  {!isLanding && (
+                    <button
+                      onClick={toggleSideNav}
+                      className="flex items-center m-2 px-3 py-2 rounded-lg hover:bg-white/5"
+                    >
+                      <Menu />
+                    </button>
+                  )}
+                  <div className="font-bold text-lg">Flashcards</div>
                   {/* <Searchbar /> */}
                 </div>
-                <div className="flex items-center space-x-4">
-                  {isSignedIn && (
-                    // <Link
-                    //   href="/decks/create"
-                    //   className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-indigo-700 border-2 border-indigo-700 hover:border-indigo-600 hover:text-indigo-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
-                    // >
-                    //   <Add className="" />
-                    // </Link>
-                    <NewButton />
-                  )}
+                <div className="hidden md:flex items-center justify-center w-2/4 max-w-[30rem] md:pl-[5rem]">
+                  <Searchbar />
+                </div>
+                <div className="flex items-center justify-end space-x-4 w-1/4">
+                  {isSignedIn &&
+                    (isLanding ? (
+                      <Link
+                        href="/home"
+                        className="py-1.5 px-4 border-2 border-indigo-700 rounded-full font-bold"
+                      >
+                        Dashboard
+                      </Link>
+                    ) : (
+                      <NewButton />
+                    ))}
+
                   <ClerkLoading>
                     <div className="w-[40px] h-[40px] bg-white/5 animate-pulse rounded-full"></div>
                   </ClerkLoading>

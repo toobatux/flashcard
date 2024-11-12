@@ -53,7 +53,7 @@ const StudyFinishModal = ({
         className="bg-neutral-800 rounded-lg shadow-lg p-6 max-w-sm w-full"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-xl font-bold mb-4">Great job!</h2>
+        <div className="text-xl font-bold mb-4">Great job!</div>
         <div className="text-white/60">You earned {score} points.</div>
         <div className="flex gap-2 mt-6">
           {/* <div className="w-full">

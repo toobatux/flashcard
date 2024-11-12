@@ -1,4 +1,4 @@
-import { fetchDeckById } from "@/actions/actions";
+import { fetchDeckById, getDeckScores } from "@/actions/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
@@ -7,6 +7,7 @@ import StudyButton from "@/app/components/StudyButton";
 import Leaderboard from "@/app/components/Leaderboard";
 import MoreDropdown from "@/app/components/MoreDropdown";
 import KeyboardMessage from "@/app/components/KeyboardMessage";
+import GuideCard from "@/app/components/GuideCard";
 
 export default async function DeckPage({
   params: { deckId },
@@ -15,13 +16,10 @@ export default async function DeckPage({
 }) {
   const deck = await fetchDeckById(deckId);
   const cards = deck?.cards;
+  const deckScores = await getDeckScores(deckId);
   const user = await currentUser();
   const userIsAuthor = user?.id === deck?.author.clerkId;
   const isEmpty = cards?.length === 0;
-  console.log(deck?.id);
-  // function handleStudy() {
-  //   updateRecentDecks(user!.id, deck!.id);
-  // }
 
   return (
     <>
@@ -32,7 +30,7 @@ export default async function DeckPage({
             Private
           </div>
         )}
-        <div className="text-black dark:text-white text-xl md:text-2xl lg:text-3xl font-bold flex">
+        <div className="text-black dark:text-white text-2xl lg:text-3xl font-bold flex">
           {deck?.title}
         </div>
         <div className="text-black dark:text-white/50 mt-3 mb-6">
@@ -74,15 +72,11 @@ export default async function DeckPage({
               <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
                 Read the guide
               </div>
-              <Link href={`/guides/${deck.guide.id}`}>
-                <div className="p-3 rounded-lg bg-white/5 hover:bg-white/10">
-                  <div className="font-bold mb-2">{deck.guide.title}</div>
-                </div>
-              </Link>
+              <GuideCard guide={deck.guide} isSmall={true} />
             </>
           )}
 
-          <Leaderboard deck={deck!} />
+          <Leaderboard deckScores={deckScores} />
         </div>
 
         {deck && deck?.cards.length > 0 ? (
@@ -178,21 +172,17 @@ export default async function DeckPage({
               <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
                 Read the guide
               </div>
-              <Link href={`/guides/${deck.guide.id}`}>
-                <div className="p-3 rounded-lg bg-white/5 hover:bg-white/10">
-                  <div className="font-bold mb-2">{deck.guide.title}</div>
-                </div>
-              </Link>
+              <GuideCard guide={deck.guide} isSmall={false} />
             </>
           )}
 
-          <Leaderboard deck={deck!} />
+          <Leaderboard deckScores={deckScores} />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-12">
           <div className="text-white/50 text-xs">Last updated</div>
           <div className="flex text-white/75 text-sm mt-1 h-[25px] items-center">
-            {deck?.updatedOn.toDateString()}
+            {deck?.updatedOn.toDateString().split(" ").slice(1).join(" ")}
           </div>
         </div>
       </div>

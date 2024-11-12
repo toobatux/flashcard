@@ -161,11 +161,65 @@ export async function getUser(clerkId: string): Promise<UserWithRelations | null
     });
 }
 
-export async function updateUserScore(clerkId: string, points: number) {
+export async function getUserById(userId: string) {
+    return await prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+            lastStudiedDecks: {
+                include: {
+                    author: true,
+                    cards: true,
+                    savedBy: true,
+                }
+            },
+            savedDecks: true
+        }
+    })
+}
+
+export async function updateUserScore(id: string, points: number) {
     return await prisma.user.update({
-        where: { clerkId },
+        where: { id },
         data: {
             score: {increment: points},
+        }
+    })
+}
+
+export async function updateDeckScore(userId: string, deckId: string, scoreToAdd: number) {
+    await prisma.deckScore.upsert({
+        where: {
+            userId_deckId: {
+                userId,
+                deckId,
+            },
+        },
+        update: {
+            score: {
+                increment: scoreToAdd,
+            },
+        },
+        create: {
+            userId,
+            deckId,
+            score: scoreToAdd,
+        },
+    });
+}
+
+export async function getDeckScores(deckId: string) {
+    return await prisma.deckScore.findMany({
+        where: {
+            deckId
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    username: true,
+                    imageURL: true,
+                }
+            }
         }
     })
 }

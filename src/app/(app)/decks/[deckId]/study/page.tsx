@@ -25,7 +25,11 @@ export default async function Page({ params }: { params: { deckId: string } }) {
           </Link>
         </div>
         <div className="mt-20">
-          <StudyCards initialCards={deck?.cards} deckId={deck!.id} />
+          <StudyCards
+            initialCards={deck?.cards}
+            deckId={deck!.id}
+            user={user}
+          />
         </div>
         <div className="flex justify-center items-center mt-20">
           <div className="bg-white/5 py-2 px-4 rounded-lg text-white/60">

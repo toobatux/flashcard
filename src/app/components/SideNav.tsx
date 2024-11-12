@@ -52,7 +52,7 @@ const SideNav = ({ isOpenMobile }: SideNavProps) => {
         isOpenMobile
           ? "w-1/2 md:w-1/4 xl:w-1/6"
           : "hidden md:block transition-all w-[5rem]"
-      } fixed top-16 left-0 h-full bg-neutral-300 dark:bg-neutral-900 border-r dark:border-white/10 p-1 pt-4 px-4 transition-all`}
+      } fixed top-16 left-0 h-full bg-neutral-300 dark:bg-neutral-900 border-r border-white/10 p-1 pt-4 px-4 transition-all`}
     >
       <nav className="text-sm">
         <div className="grid space-y-1">
@@ -65,8 +65,8 @@ const SideNav = ({ isOpenMobile }: SideNavProps) => {
                 key={link.name}
                 className={
                   isActive
-                    ? "flex relative items-center text-indigo-400 group font-bold py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 focus:outline-none focus-visible:ring-white focus-visible:ring-2"
-                    : "flex relative items-center text-gray-400 group font-bold py-2 px-3 rounded-lg hover:bg-white/5 no-underline focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+                    ? "flex relative items-center text-indigo-400 group font-bold py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
+                    : "flex relative items-center text-white/50 group font-bold py-2 px-3 rounded-lg hover:bg-white/5 no-underline focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
                 }
               >
                 {IconComponent && <IconComponent />}
@@ -92,8 +92,8 @@ const SideNav = ({ isOpenMobile }: SideNavProps) => {
                 key={link.name}
                 className={
                   isActive
-                    ? "flex items-center text-indigo-400 font-bold py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 focus:outline-none focus-visible:ring-white focus-visible:ring-2"
-                    : "flex items-center text-gray-400 font-bold py-2 px-3 rounded-lg hover:bg-white/5 no-underline focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+                    ? "flex items-center text-indigo-400 font-bold py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
+                    : "flex items-center text-white/50 font-bold py-2 px-3 rounded-lg hover:bg-white/5 no-underline focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
                 }
               >
                 {IconComponent && <IconComponent />}

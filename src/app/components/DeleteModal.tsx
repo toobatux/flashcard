@@ -39,10 +39,7 @@ const DeleteModal = ({ deckId }: DeleteModalProps) => {
         className="bg-neutral-800 rounded-lg shadow-lg p-6 max-w-sm w-full"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="text-xl font-bold mb-4">Delete deck</div>
-        <div className="text-white/60">
-          Are you sure you want to delete this deck?
-        </div>
+        <div className="text-xl font-bold mb-4">Delete deck?</div>
         <div className="text-white/60">This cannot be undone.</div>
         <div className="flex mt-6 gap-2">
           <button

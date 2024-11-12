@@ -5,6 +5,12 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { dark } from "@clerk/themes";
+import { Oswald } from "next/font/google";
+
+// const oswald = Oswald({
+//   subsets: ["latin"],
+//   variable: "--font-oswald",
+// });
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,6 +22,12 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+// const montserrat = localFont({
+//   src: "./fonts/MontserratVF.woff",
+//   variable: "--font-mont",
+//   weight: "100 900",
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,6 +42,7 @@ export default function RootLayout({
   return (
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en">
+        {/* ${geistSans.variable} ${geistMono.variable} */}
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-neutral-200 bg-opacity-50 dark:bg-neutral-900`}
         >

@@ -1,21 +1,26 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card } from "@prisma/client";
+import { Card, User } from "@prisma/client";
 import { Check, Close, ThumbDown, ThumbUp } from "@mui/icons-material";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
-import { updateUserScore } from "@/actions/actions";
+import { updateDeckScore, updateUserScore } from "@/actions/actions";
 import StudyFinishModal from "./StudyFinishModal";
 
 type CardsProps = {
   initialCards?: Card[];
   deckId: string;
+  user: User | null;
 };
 
-export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
-  const { user } = useUser();
-
-  const [cards, setCards] = useState(initialCards);
+export default function StudyCards({
+  initialCards = [],
+  deckId,
+  user,
+}: CardsProps) {
+  const [cards, setCards] = useState(() =>
+    initialCards.sort(() => Math.random() - 0.5)
+  );
   const [index, setIndex] = useState(0);
   const [isFlipped, setFlipped] = useState(false);
   const hasNext = index < cards.length - 1;
@@ -64,6 +69,7 @@ export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
   }
 
   function handleFinish() {
+    updateDeckScore(user!.id, deckId, score);
     updateUserScore(user!.id, score);
   }
 
@@ -111,14 +117,6 @@ export default function StudyCards({ initialCards = [], deckId }: CardsProps) {
 
           <div className="flex justify-center items-center gap-4 mt-4">
             {isLastCard ? (
-              // <Link href={`/decks/${deckId}`}>
-              //   <button
-              //     onClick={handleFinish}
-              //     className="h-[42px] bg-indigo-600 py-2 px-6 rounded-lg font-semibold hover:bg-indigo-500 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors"
-              //   >
-              //     Finish
-              //   </button>
-              // </Link>
               <StudyFinishModal
                 deckId={deckId}
                 score={score}

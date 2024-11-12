@@ -12,7 +12,7 @@ const GuidesPage = async () => {
         <div className="grid my-6 grid-cols-1 lg:grid-cols-2 gap-4">
           {guides.map((guide) => (
             <div key={guide.id}>
-              <GuideCard guide={guide} />
+              <GuideCard guide={guide} isSmall={false} />
             </div>
           ))}
         </div>
