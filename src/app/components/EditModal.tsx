@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useEffect, useState as useLayoutEffect } from "react";
-import EditDeckForm from "./EditDeckForm";
+import EditDeckForm from "../forms/EditDeckForm";
 import { Deck } from "@prisma/client";
 
 interface EditModalProps {

@@ -5,11 +5,20 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { dark } from "@clerk/themes";
-import { Oswald } from "next/font/google";
+import { Roboto, Poppins } from "next/font/google";
 
-// const oswald = Oswald({
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
+// const oswald = Roboto({
 //   subsets: ["latin"],
-//   variable: "--font-oswald",
+//   weight: ["400", "900"],
+//   variable: "--font-poppins",
+//   display: "swap",
 // });
 
 const geistSans = localFont({
@@ -44,7 +53,7 @@ export default function RootLayout({
       <html lang="en">
         {/* ${geistSans.variable} ${geistMono.variable} */}
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-neutral-200 bg-opacity-50 dark:bg-neutral-900`}
+          className={`${poppins.className} antialiased min-h-screen flex flex-col bg-neutral-200 bg-opacity-50 dark:bg-neutral-900`}
         >
           {/* <ClerkLoading>
             <div className="flex w-full h-screen justify-center items-center">

@@ -57,7 +57,9 @@ const Navbar = () => {
                       <Menu />
                     </button>
                   )}
-                  <div className="font-bold text-lg">Flashcards</div>
+                  <Link href="/">
+                    <div className="font-bold text-lg">Flashcards</div>
+                  </Link>
                   {/* <Searchbar /> */}
                 </div>
                 <div className="hidden md:flex items-center justify-center w-2/4 max-w-[30rem] md:pl-[5rem]">

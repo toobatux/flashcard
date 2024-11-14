@@ -1,4 +1,4 @@
-import { Guide, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 
@@ -20,10 +20,14 @@ const GuideCard = ({ guide, isSmall }: GuideCardProps) => {
             <div
               className={` ${
                 isSmall ? "min-w-14 min-h-14" : "min-w-24 min-h-24"
-              } rounded-lg bg-white/10`}
+              } rounded bg-white/10`}
             ></div>
-            <div className="flex flex-col justify-between">
-              <div className="text-white/85 h-[50px] font-semibold line-clamp-2 overflow-ellipsis">
+            <div
+              className={`flex flex-col justify-between ${
+                !isSmall ? "py-3" : ""
+              }`}
+            >
+              <div className="text-white/85 h-[50px] font-medium line-clamp-2 overflow-ellipsis">
                 {guide?.title}
               </div>
               {/* <div className="text-sm"> By {guide?.author.username}</div> */}
