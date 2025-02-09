@@ -15,7 +15,7 @@ const NewButton = () => {
     <div className="relative inline-block text-left dropdown">
       <button
         type="button"
-        className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-indigo-700 border-2 border-indigo-700 hover:border-indigo-600 hover:text-indigo-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+        className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-blue-700 border-2 border-blue-700 hover:border-blue-600 hover:text-blue-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
         onClick={toggleDropdown}
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -30,7 +30,7 @@ const NewButton = () => {
             onClick={toggleDropdown}
           ></div>
           <div
-            className="absolute right-0 z-20 mt-2 w-44 origin-top-right rounded-md bg-neutral-900 border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
+            className="absolute right-0 z-20 mt-2 w-44 origin-top-right rounded-md app-bg border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"

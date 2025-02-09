@@ -1,24 +1,26 @@
 import { getSavedDecksForUser } from "@/actions/actions";
 import DeckCard from "@/app/components/DeckCard";
+import { currentUser } from "@clerk/nextjs/server";
 
-interface SavedDecksProps {
-  clerkId: string;
-}
+export default async function SavedDecks() {
+  const clerkUser = await currentUser();
 
-export default async function SavedDecks({ clerkId }: SavedDecksProps) {
-  const savedDecks = await getSavedDecksForUser(clerkId);
+  if (!clerkUser) {
+    console.error("Error: no clerkUser found");
+    return <div>Error: User not authenticated.</div>;
+  }
+
+  const savedDecks = await getSavedDecksForUser(clerkUser.id);
 
   if (!savedDecks || savedDecks.length === 0) return null;
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {savedDecks.map((savedDeck) => (
-          <div key={savedDeck.id}>
-            <DeckCard deck={savedDeck} />
-          </div>
-        ))}
-      </div>
+      {savedDecks.map((savedDeck) => (
+        <li key={savedDeck.id}>
+          <DeckCard deck={savedDeck} />
+        </li>
+      ))}
     </>
   );
 }

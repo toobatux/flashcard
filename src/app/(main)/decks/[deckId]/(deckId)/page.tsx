@@ -9,6 +9,7 @@ import MoreDropdown from "@/app/(main)/decks/[deckId]/(deckId)/components/MoreDr
 import KeyboardMessage from "@/app/(main)/decks/[deckId]/(deckId)/components/KeyboardMessage";
 import GuideCard from "@/app/components/GuideCard";
 import CardTable from "@/app/(main)/decks/[deckId]/(deckId)/components/CardTable";
+import AuthorCard from "./components/AuthorCard";
 
 export default async function DeckPage({
   params: { deckId },
@@ -38,26 +39,14 @@ export default async function DeckPage({
           {deck?.description}
         </div>
 
-        <div className="block text-xs text-black/90 dark:text-white/50">
+        {/* <div className="block text-xs text-black/90 dark:text-white/50">
           Created by
-        </div>
-        <div className="flex w-full items-center justify-between rounded-xl mt-1 mb-8 lg:mb-8">
-          <div className="flex h-full">
-            <Link
-              href={`/profile/${deck?.author.clerkId}`}
-              className="flex items-center text-black dark:text-white/80 font-semibold hover:underline"
-            >
-              {deck?.author.imageURL && (
-                <Image
-                  src={deck?.author.imageURL}
-                  width={100}
-                  height={100}
-                  className="rounded-full me-2 object-cover w-8 h-8"
-                  alt="Avatar"
-                />
-              )}
-              {deck?.author.username}
-            </Link>
+        </div> */}
+        <div className="flex w-full items-center justify-between rounded-xl mt-1">
+          <div className="text-white/50 flex gap-2">
+            <span> {deck?.difficulty}</span>
+            <span>•</span>
+            <span>{deck?.cards.length} Cards</span>
           </div>
           <div className="flex items-center gap-3">
             {/* {userIsAuthor && <EditModal deck={deck!} />} */}
@@ -65,9 +54,11 @@ export default async function DeckPage({
             <StudyButton deck={deck} isEmpty={isEmpty} userId={user!.id} />
           </div>
         </div>
+        <hr className="w-full border border-white/5 mt-4 mb-8 lg:mb-8" />
 
         {/* Leaderboard positioned at the top-right */}
         <div className="hidden 2xl:block absolute top-0 -right-[22rem] w-[20rem] p-4">
+          {/* <AuthorCard author={deck!.author} /> */}
           {deck?.guide && (
             <>
               <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
@@ -89,9 +80,8 @@ export default async function DeckPage({
         )}
 
         <Cards cards={cards} />
-        <CardTable cards={cards} />
 
-        <div className="2xl:hidden w-full my-8">
+        <div className="2xl:hidden w-full my-14">
           {deck?.guide && (
             <>
               <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
@@ -100,7 +90,11 @@ export default async function DeckPage({
               <GuideCard guide={deck.guide} isSmall={false} />
             </>
           )}
+        </div>
 
+        <CardTable cards={cards} />
+
+        <div className="2xl:hidden w-full my-8">
           <Leaderboard deckScores={deckScores} />
         </div>
 

@@ -9,13 +9,13 @@ const GuidesPage = async () => {
     <>
       <div className="lg:my-6 my-4">
         <div className="text-xl md:text-2xl lg:text-3xl font-bold">Guides</div>
-        <div className="grid my-6 grid-cols-1 lg:grid-cols-2 gap-4">
+        <ul className="grid my-6 grid-cols-1 lg:grid-cols-2 gap-4">
           {guides.map((guide) => (
-            <div key={guide.id}>
+            <li key={guide.id} className="list-none">
               <GuideCard guide={guide} isSmall={false} />
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </>
   );

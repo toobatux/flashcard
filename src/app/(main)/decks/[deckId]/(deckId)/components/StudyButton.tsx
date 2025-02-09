@@ -29,7 +29,7 @@ export default function StudyButton({
       <button
         onClick={handleStudy}
         disabled={isDisabled}
-        className={`bg-indigo-700 hover:bg-indigo-600 h-[40px] w-[96px] py-2 px-6 rounded-lg font-bold transition-colors flex items-center justify-center ${
+        className={`bg-blue-700 hover:bg-blue-600 h-[40px] w-[96px] py-2 px-6 rounded-full font-bold transition-colors flex items-center justify-center ${
           isEmpty || isDisabled ? "opacity-50" : ""
         }`}
       >
@@ -41,6 +41,7 @@ export default function StudyButton({
             height="20"
             width="20"
             color="#ffffff"
+            secondaryColor="#ffffff"
             ariaLabel="oval-loading"
             strokeWidth={6}
             wrapperStyle={{}}

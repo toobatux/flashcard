@@ -9,7 +9,7 @@ import { Roboto, Poppins } from "next/font/google";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
 });
@@ -53,7 +53,7 @@ export default function RootLayout({
       <html lang="en">
         {/* ${geistSans.variable} ${geistMono.variable} */}
         <body
-          className={`${poppins.className} antialiased min-h-screen flex flex-col bg-neutral-200 bg-opacity-50 dark:bg-neutral-900`}
+          className={`${geistSans.className} antialiased min-h-screen flex flex-col app-bg`}
         >
           {/* <ClerkLoading>
             <div className="flex w-full h-screen justify-center items-center">
@@ -61,9 +61,9 @@ export default function RootLayout({
             </div>
           </ClerkLoading> */}
           {/* <ClerkLoaded> */}
-          <Navbar />
+          {/* <Navbar /> */}
           <main className="flex-grow w-full h-full">{children}</main>
-          <Footer />
+          {/* <Footer /> */}
           {/* </ClerkLoaded> */}
         </body>
       </html>

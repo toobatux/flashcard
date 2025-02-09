@@ -10,24 +10,24 @@ const CardTable = ({ cards }: CardTableProps) => {
       {cards && cards.length > 0 && (
         <>
           <div className="my-8 mb-4 text-lg lg:text-xl font-semibold">
-            Cards in this deck
+            Cards in this deck ({cards.length})
           </div>
-          <div className="border-2 border-white/5 rounded-lg">
-            <div className="flex w-full items-center gap-3 ps-3 p-3 text-white/50">
-              <div className="ms-2 w-[5rem]">#</div>
-              <div className="ms-2 w-full">Question</div>
-              <div className="ms-2 w-full">Answer</div>
-            </div>
-            {cards.map((card, index) => (
-              <div key={card.id}>
-                <div className="flex w-full items-center gap-6 p-3 border-t-2 border-white/5 hover:bg-white/5">
-                  <div className="text-white/50 ms-2 w-[5rem]">{index + 1}</div>
-                  <div className="w-full font-semibold">{card.question}</div>
-                  <div className="w-full me-2">{card.answer}</div>
+
+          <ul className="space-y-3">
+            {cards.map((card) => (
+              <li
+                key={card.id}
+                className="flex w-full items-center py-5 bg-white/5 rounded-lg"
+              >
+                <div className="flex flex-col md:flex-row w-full gap-4">
+                  <div className="flex font-semibold md:w-1/3 items-center px-5">
+                    {card.question}
+                  </div>
+                  <div className="md:w-2/3 px-5">{card.answer}</div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </>
       )}
     </>

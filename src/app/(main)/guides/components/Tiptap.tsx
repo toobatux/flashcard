@@ -7,6 +7,7 @@ import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
+import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import TextStyle from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
@@ -25,6 +26,7 @@ const Tiptap = ({ onChange }: TipTapProps) => {
       Image,
       Text,
       TextStyle,
+      Paragraph,
       Color,
       Heading.configure({
         HTMLAttributes: {
@@ -137,13 +139,13 @@ const Tiptap = ({ onChange }: TipTapProps) => {
             onClick={() => editor.chain().focus().setColor("#6366f1").run()}
             className={`w-[42px] h-[42px] p-2 rounded hover:bg-white/5 flex items-center justify-center
               ${
-                editor.isActive("textStyle", { color: "#6366f1" })
+                editor.isActive("textStyle", { color: "#818cf8" })
                   ? "bg-white/10"
                   : ""
               }
             `}
           >
-            <div className="w-4 h-4 rounded bg-indigo-500"></div>
+            <div className="w-4 h-4 rounded bg-indigo-400"></div>
           </button>
 
           <button

@@ -3,11 +3,11 @@ import { auth } from "@clerk/nextjs/server";
 import DeckCard from "@/app/components/DeckCard";
 import { Suspense } from "react";
 import DeckCardSkeleton from "@/app/components/loading/DeckCardSkeleton";
+import DeckCardList from "./components/DeckCardList";
 
 export default async function Decks() {
   auth().protect();
   // const { userId }: { userId: string | null } = auth();
-  const decks = await fetchPublicDecks();
   return (
     <>
       <div className="lg:my-6 my-4">
@@ -17,19 +17,15 @@ export default async function Decks() {
 
         <div className="my-8 lg:my-12">
           <div className="mb-3 text-lg text-white/70">All Decks</div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Suspense
               fallback={Array.from({ length: 20 }, (_, i) => (
                 <DeckCardSkeleton key={i} />
               ))}
             >
-              {decks.map((deck) => (
-                <div key={deck.id}>
-                  <DeckCard deck={deck} />
-                </div>
-              ))}
+              <DeckCardList />
             </Suspense>
-          </div>
+          </ul>
         </div>
       </div>
     </>

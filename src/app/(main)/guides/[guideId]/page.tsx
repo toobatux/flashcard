@@ -70,7 +70,9 @@ const GuidePage = async ({
 
         <hr className="border border-white/10 mt-4 mb-8" />
 
-        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        <div className="tiptap">
+          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        </div>
         <div className="my-12"></div>
       </div>
     </>

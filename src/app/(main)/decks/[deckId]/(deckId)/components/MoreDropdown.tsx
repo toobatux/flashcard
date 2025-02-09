@@ -42,7 +42,7 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
       <div className="relative group flex items-center">
         <button
           type="button"
-          className="flex items-center border-2 border-white/50 hover:border-white/65 hover:bg-white/10 p-1.5 rounded-lg text-white font-semibold transition-colors"
+          className="flex items-center border-2 border-white/20 hover:border-white/25 hover:bg-white/10 p-1.5 rounded-full text-white font-semibold transition-colors"
           onClick={toggleDropdown}
           aria-expanded={isOpen}
           aria-haspopup="true"
@@ -71,7 +71,7 @@ const MoreDropdown = ({ userIsAuthor, deckId }: MoreDropdownProps) => {
             onClick={toggleDropdown}
           ></div>
           <div
-            className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md bg-neutral-900 border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
+            className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md app-bg border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"

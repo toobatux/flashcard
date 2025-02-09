@@ -89,21 +89,21 @@ export default function Cards({ cards = [] }: CardsProps) {
         <div className="flex flex-col w-full justify-center">
           <button
             onClick={handleFlip}
-            className={`relative min-h-[15rem] md:h-[20rem] lg:h-[25rem] w-full border border-white/10 shadow-lg rounded-lg transition-transform duration-300 [transform-style:preserve-3d] cursor-pointer focus-visible:ring-white focus-visible:ring-2 focus:outline-none ${
+            className={`relative min-h-[15rem] md:h-[20rem] lg:h-[25rem] w-full border border-white/10 shadow-lg rounded-lg transition-all duration-300 [transform-style:preserve-3d] cursor-pointer focus-visible:ring-white focus-visible:ring-2 focus:outline-none ${
               isFlipped
                 ? "[transform:rotateY(180deg)]"
                 : "[transform:rotateY(0deg)]"
             }`}
           >
             {/* Front Face (Question) */}
-            <div className="absolute inset-0 h-full w-full rounded-lg bg-[#232323] text-xl md:text-2xl lg:text-3xl [backface-visibility:hidden] overflow-y-auto flex items-center">
+            <div className="absolute inset-0 h-full w-full rounded-lg bg-[#2A2A30] text-xl md:text-2xl lg:text-3xl [backface-visibility:hidden] overflow-y-auto flex items-center">
               <div className="p-4 flex-grow flex items-center justify-center">
                 {card.question}
               </div>
             </div>
 
             {/* Back Face (Answer) */}
-            <div className="absolute inset-0 h-full w-full rounded-lg bg-[#303030] text-white text-xl md:text-2xl lg:text-3xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto flex items-center">
+            <div className="absolute inset-0 h-full w-full rounded-lg bg-[#2A2A30] text-white text-xl md:text-2xl lg:text-3xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto flex items-center">
               <div className="p-4 flex-grow flex items-center justify-center">
                 {card.answer}
               </div>
@@ -114,8 +114,8 @@ export default function Cards({ cards = [] }: CardsProps) {
             <button
               onClick={handlePrevClick}
               disabled={!hasPrev}
-              className={`border-2 border-white/10 py-2 px-6 rounded-full hover:bg-white/5 focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors ${
-                !hasPrev ? "opacity-50 cursor-not-allowed" : ""
+              className={`border-2 border-white/10 py-2 px-6 rounded-full focus-visible:ring-white focus-visible:ring-2 focus:outline-none transition-colors ${
+                !hasPrev ? "opacity-50 cursor-not-allowed" : "hover:bg-white/5"
               }`}
             >
               <ArrowBack />

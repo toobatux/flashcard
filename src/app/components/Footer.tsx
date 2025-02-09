@@ -8,7 +8,9 @@ const Footer = () => {
           <div className="flex-auto w-full h-full flex items-center">
             <div className="w-full">
               <div className="relative flex items-center justify-between">
-                <div className="text-lg font-semibold">Footer</div>
+                <div className="text-sm text-white/50">
+                  Made by Tom Krusinski
+                </div>
               </div>
             </div>
           </div>

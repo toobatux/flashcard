@@ -49,7 +49,7 @@ const DeckCard = ({ deck }: DeckCardProps) => {
       href={`/decks/${deck?.id}`}
       className="focus:outline-none focus-visible:ring-white focus-visible:ring-2 rounded-lg"
     >
-      <div className="text-sm relative h-[140px] p-4 bg-white/5 hover:bg-white/10 group rounded-xl shadow-lg transition-all flex flex-col justify-between">
+      <div className="text-sm relative h-[140px] p-4 border-2 border-white/10 hover:bg-white/5 group rounded-xl transition-all flex flex-col justify-between">
         <div className="text-white/85 h-[40px] font-semibold me-5 line-clamp-2 overflow-ellipsis">
           {deck?.title}
         </div>

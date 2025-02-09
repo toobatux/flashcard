@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { JSONContent } from "@tiptap/react";
-import { createGuide } from "@/actions/actions";
+import { createGuide, s3Submit } from "@/actions/actions";
 import Tiptap from "../(main)/guides/components/Tiptap";
 import { Deck } from "@prisma/client";
 
@@ -38,9 +38,40 @@ const NewGuideForm = ({ myDecks }: NewGuideFormProps) => {
     createGuide(formData);
   };
 
+  const handleS3Submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+
+    s3Submit(formData);
+  };
+
   return (
     <>
       <div className="my-4">
+        <form action={s3Submit} className="mb-6">
+          <label
+            htmlFor="file"
+            className="block tracking-wide text-sm text-white/90 font-bold"
+          >
+            Thumbnail
+          </label>
+          <div className="flex">
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="images/*"
+              className="mt-2"
+            />
+            <button
+              type="submit"
+              className="p-2 bg-white/5 rounded hover:bg-white/10"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div>
             <label
@@ -57,21 +88,6 @@ const NewGuideForm = ({ myDecks }: NewGuideFormProps) => {
               placeholder="Guide Title"
               className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"
               required
-            />
-          </div>
-          <div className="inline-block">
-            <label
-              htmlFor="file"
-              className="block tracking-wide text-sm text-white/90 font-bold"
-            >
-              Thumbnail
-            </label>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept="images/*"
-              className="mt-2"
             />
           </div>
           <div>

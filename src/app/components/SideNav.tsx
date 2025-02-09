@@ -9,14 +9,22 @@ import Bookmark from "@mui/icons-material/Bookmark";
 import BookmarkOutlined from "@mui/icons-material/BookmarkBorderOutlined";
 import SchoolIcon from "@mui/icons-material/School";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import { useState } from "react";
 
-const homeNavLinks: Array<{
+const mainNavLinks: Array<{
   name: string;
   href: string;
   filled: React.ComponentType;
   outlined: React.ComponentType;
 }> = [
   { name: "Home", href: "/home", filled: HomeIcon, outlined: HomeOutlined },
+  { name: "Decks", href: "/decks", filled: Layers, outlined: LayersOutlined },
+  {
+    name: "Guides",
+    href: "/guides",
+    filled: SchoolIcon,
+    outlined: SchoolOutlinedIcon,
+  },
   {
     name: "Library",
     href: "/library",
@@ -25,91 +33,93 @@ const homeNavLinks: Array<{
   },
 ];
 
-const mainNavLinks: Array<{
-  name: string;
-  href: string;
-  filled: React.ComponentType;
-  outlined: React.ComponentType;
-}> = [
-  { name: "Decks", href: "/decks", filled: Layers, outlined: LayersOutlined },
-  {
-    name: "Guides",
-    href: "/guides",
-    filled: SchoolIcon,
-    outlined: SchoolOutlinedIcon,
-  },
-];
-
 interface SideNavProps {
   isOpenMobile: boolean;
 }
 
-const SideNav = ({ isOpenMobile }: SideNavProps) => {
-  const pathName = usePathname();
+const SideNav = () => {
+  const path = usePathname();
+
+  const toggleNav = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <aside
-      className={`${
-        isOpenMobile
-          ? "w-1/2 md:w-1/4 xl:w-1/6"
-          : "hidden md:block transition-all w-[5rem]"
-      } fixed top-16 left-0 h-full bg-neutral-300 dark:bg-neutral-900 border-r border-white/10 p-1 pt-4 px-4 transition-all`}
+    <nav
+      className={`fixed z-10 md:relative md:flex-none bottom-0 left-0 w-full h-22 flex justify-start ${
+        isOpen ? "md:w-64" : "md:w-[88px]"
+      } md:min-h-screen navbg lg:transition-all nav-bg`}
     >
-      <nav className="text-sm">
-        <div className="grid space-y-1">
-          {homeNavLinks.map((link) => {
-            const isActive = pathName.startsWith(link.href);
-            const IconComponent = isActive ? link.filled : link.outlined;
-            return (
-              <Link
-                href={link.href}
-                key={link.name}
-                className={
-                  isActive
-                    ? "flex relative items-center text-indigo-400 group font-bold py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
-                    : "flex relative items-center text-white/50 group font-bold py-2 px-3 rounded-lg hover:bg-white/5 no-underline focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
-                }
-              >
-                {IconComponent && <IconComponent />}
-                <div
-                  className={`${
-                    isOpenMobile ? "block ms-3" : "hidden  xl:ms-3"
+      {/* border-t-2 md:border-t-0 md:border-r-2 border-white/10 */}
+      <div className="md:fixed md:top-0 w-[inherit]">
+        <div className="flex md:flex-col w-full items-center justify-around p-2 md:p-4 gap-2">
+          {/* Korean Text or Logo */}
+          <div className="hidden md:flex w-full justify-center items-center px-4 pt-1 pb-4">
+            {/* <span className="hidden lg:flex w-full font-bold p-2">Korean</span> */}
+            <button
+              onClick={toggleNav}
+              className="flex w-full justify-start gap-4"
+            >
+              <span className="hidden md:flex w-[24px] h-[24px] text-2xl items-end justify-center">
+                &#128507;
+              </span>
+              <div className={`${isOpen ? "hidden md:flex" : "hidden"}`}>
+                STUDYAPP
+              </div>
+            </button>
+          </div>
+
+          <ul className="flex md:block w-full justify-center gap-1 md:space-y-1">
+            {mainNavLinks.map((link) => {
+              const isActive = path === link.href;
+              const IconComponent = isActive ? link.filled : link.outlined;
+              return (
+                <li
+                  key={link.name}
+                  className={`flex-1 w-full h-[45px] items-center justify-center transition-colors rounded-lg ${
+                    isActive
+                      ? "bg-black/10 dark:bg-white/5 bg-opacity-10"
+                      : "hover:bg-black/5 dark:hover:bg-white/5"
                   }`}
                 >
-                  {link.name}
-                </div>
-              </Link>
-            );
-          })}
+                  <Link
+                    href={link.href}
+                    className={`flex w-full h-full items-center px-4 py-1 justify-center md:justify-start  ${
+                      isOpen ? "md:justify-start" : ""
+                    }`}
+                  >
+                    <div className={`flex lg:gap-4 ${isOpen ? "gap-4" : ""}`}>
+                      <span
+                        className={`flex w-[24px] h-[24px] items-center justify-center ${
+                          isActive
+                            ? "dark:fill-white dark:text-white  font-semibold"
+                            : "fill-none stroke-black/50 dark:text-white/50"
+                        }`}
+                        style={{ fontSize: "20px" }}
+                      >
+                        {/* {link.icon} */}
+                        {IconComponent && <IconComponent />}
+                      </span>
+                      <span
+                        className={`${
+                          isOpen ? "md:flex" : "hidden"
+                        } hidden items-center ${
+                          isActive ? "dark:text-white" : "dark:text-white/80"
+                        } text-sm`}
+                      >
+                        {link.name}
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-        <hr className="border border-white/10 my-4" />
-        <div className="grid space-y-1">
-          {mainNavLinks.map((link) => {
-            const isActive = pathName.startsWith(link.href);
-            const IconComponent = isActive ? link.filled : link.outlined;
-            return (
-              <Link
-                href={link.href}
-                key={link.name}
-                className={
-                  isActive
-                    ? "flex items-center text-indigo-400 font-bold py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
-                    : "flex items-center text-white/50 font-bold py-2 px-3 rounded-lg hover:bg-white/5 no-underline focus:outline-none focus-visible:ring-white focus-visible:ring-2 transition-colors"
-                }
-              >
-                {IconComponent && <IconComponent />}
-                <div
-                  className={`${
-                    isOpenMobile ? "block ms-3" : "hidden xl:ms-3"
-                  }`}
-                >
-                  {link.name}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
-    </aside>
+      </div>
+    </nav>
   );
 };
 

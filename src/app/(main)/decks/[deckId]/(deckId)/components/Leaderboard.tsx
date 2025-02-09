@@ -34,29 +34,34 @@ const Leaderboard = ({ deckScores }: LeaderboardProps) => {
             Leaderboard
           </div>
           <div className="p-2 border-2 border-white/5 rounded-lg space-y-1 max-h-[10rem] 2xl:max-h-[20rem] overflow-auto">
-            {sortedDeckScores.map((deckScore, index) => (
-              <Link
-                key={index}
-                href={`/profile/${deckScore.user.id}`}
-                className="flex w-full items-center justify-between p-2 hover:bg-white/5 group rounded transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={deckScore.user.imageURL}
-                    width={100}
-                    height={100}
-                    alt="Avatar"
-                    className="rounded-full object-cover w-6 h-6"
-                  />
-                  <div className="text-sm group-hover:underline">
-                    {deckScore.user.username}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-white/50">{deckScore.score}</div>
-                </div>
-              </Link>
-            ))}
+            <ul>
+              {sortedDeckScores.map((deckScore, index) => (
+                <li key={index}>
+                  <Link
+                    href={`/profile/${deckScore.user.id}`}
+                    className="flex w-full items-center justify-between p-2 hover:bg-white/5 group rounded transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={deckScore.user.imageURL}
+                        width={100}
+                        height={100}
+                        alt="Avatar"
+                        className="rounded-full object-cover w-6 h-6"
+                      />
+                      <div className="text-sm group-hover:underline">
+                        {deckScore.user.username}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-white/50">
+                        {deckScore.score}
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </>
       )}

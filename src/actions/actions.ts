@@ -5,6 +5,8 @@ import { Deck, User, Card } from "@prisma/client";
 import { notFound, redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
+import { nanoid } from "nanoid";
 
 type DeckWithRelations = Prisma.DeckGetPayload<{
     include: { cards: true; author: true, students: true, savedBy: true, guide: true };
@@ -135,7 +137,7 @@ export async function fetchMyDecks(authorId: string): Promise<DeckWithRelations[
 export async function fetchDeckById(id: string): Promise<DeckWithRelations | null> {
     const deck = await prisma.deck.findUnique({
         where: { id },
-        include: { cards: true, author: true, students: true, savedBy: true, guide: true, },
+        include: { cards: true, author: true, students: true, savedBy: true, guide: true },
     });
 
     if(!deck) {
@@ -406,35 +408,53 @@ export async function fetchAllGuides() {
 // APP_AWS_SECRET_KEY
 // AWS_S3_BUCKET_NAME
 
-const region = process.env.APP_AWS_REGION;
-const accessKeyId = process.env.APP_AWS_ACCESS_KEY;
-const secretAccessKey = process.env.APP_AWS_SECRET_KEY;
-
-if (!region || !accessKeyId || !secretAccessKey) {
-    throw new Error("AWS configuration environment variables are not set.");
-}
-
-const s3Client = new S3Client({
-    region,
-    credentials: {
-        accessKeyId,
-        secretAccessKey
-    }
-});
-
-export async function UploadImage(prevState, formData) {
+export async function s3Submit(formData: FormData) {
     try {
-        const file = formData.get("file");
+        const region = process.env.APP_AWS_REGION;
+        const accessKeyId = process.env.APP_AWS_ACCESS_KEY;
+        const secretAccessKey = process.env.APP_AWS_SECRET_KEY;
 
-        const buffer = Buffer.from(await file.arrayBuffer());
-        await UploadFileToS3(buffer, file.name);
-    } catch (error) {
-        return
+        if (!region || !accessKeyId || !secretAccessKey) {
+            throw new Error("AWS configuration environment variables are not set.");
+        }
+
+        const client = new S3Client({
+            region,
+            credentials: {
+                accessKeyId,
+                secretAccessKey
+            }
+        });
+
+        const { url, fields } = await createPresignedPost(client, {
+            Bucket: process.env.AWS_S3_BUCKET_NAME || '',
+            Key: nanoid()
+        })
+
+        const formDataS3 = new FormData();
+        Object.entries(fields).forEach(([key, value]) => {
+            formDataS3.append(key, value);
+        })
+        formDataS3.append('file', formData.get('file') as string);
+
+        console.log(url, fields);
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formDataS3
+        })
+
+        const textResponse = await response.text();
+        console.log(textResponse);
+
+        if (response.ok) {
+            console.log("File uploaded!")
+        } else {
+            console.log("File upload error")
+        }
+
+    } catch (error: any) {
+        console.error(error);
     }
-}
-
-export async function UploadFileToS3(file, fileName) {
-
 }
 
 // type User = {
