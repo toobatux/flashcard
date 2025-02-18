@@ -15,7 +15,7 @@ const NewButton = () => {
     <div className="relative inline-block text-left dropdown">
       <button
         type="button"
-        className="p-1 w-[42px] h-[42px] text-sm flex items-center justify-center text-blue-700 border-2 border-blue-700 hover:border-blue-600 hover:text-blue-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+        className="p-1 w-[40px] h-[40px] text-sm flex items-center justify-center text-blue-700 border-2 border-blue-700 hover:border-blue-600 hover:text-blue-600 rounded-lg font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
         onClick={toggleDropdown}
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -37,13 +37,13 @@ const NewButton = () => {
           >
             <div className="p-2" role="none">
               <Link
-                href="/decks/create"
+                href="/courses/create"
                 className="flex items-center gap-3 py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
                 role="menuitem"
                 onClick={toggleDropdown}
               >
                 <LayersOutlined className="text-white/50" />
-                Deck
+                Course
               </Link>
               <Link
                 href="/guides/create"

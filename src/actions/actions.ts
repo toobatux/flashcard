@@ -1,78 +1,70 @@
 "use server";
 import prisma from "@/db";
-import { Prisma } from "@prisma/client";
-import { Deck, User, Card } from "@prisma/client";
+import { Difficulty, Prisma } from "@prisma/client";
+import { Course, User, Lesson } from "@prisma/client";
 import { notFound, redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 import { nanoid } from "nanoid";
 
-type DeckWithRelations = Prisma.DeckGetPayload<{
-    include: { cards: true; author: true, students: true, savedBy: true, guide: true };
+type CourseWithRelations = Prisma.CourseGetPayload<{
+    include: { lessons: true; author: true, students: true, savedBy: true, guide: true };
   }>;
 
-// export type DeckWithRelations = {
-//     id: string;
-//     title: string;
-//     description: string;
-//     createdOn: Date;
-//     updatedOn: Date;
-//     authorId: string;
-//     cards: { id: number; question: string; answer: string; deckId: string }[];
-//     author: {
-//       id: string;
-//       clerkId: string;
-//       email: string;
-//       username: string | null;
-//       imageURL: string;
-//       score: number;
-//     };
-//     students: {
-//       id: string;
-//       clerkId: string;
-//       email: string;
-//       username: string | null;
-//       imageURL: string;
-//       score: number;
-//     }[];
-//     savedBy: {
-//       id: string;
-//       clerkId: string;
-//       email: string;
-//       username: string | null;
-//       imageURL: string;
-//       score: number;
-//     }[];
-//   };
+export interface TermWithProgress {
+    id: string;
+    question: string;
+    answer: string;
+    progress: { correctCount: number };
+  }
 
 type UserWithRelations = Prisma.UserGetPayload<{
-    include: { lastStudiedDecks: true, savedDecks: true};
+    include: { lastStudiedCourses: true, savedCourses: true };
 }>;
 
-export async function createDeck(formData: FormData) {
+export async function createCourse(formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const isPublic = formData.get("public") === "true";
     const user = await currentUser();
 
+    const difficultyString = formData.get("difficulty") as string;
+
+    let difficulty: Difficulty;
+    switch(difficultyString) {
+        case "BEGINNER":
+            difficulty = Difficulty.BEGINNER;
+            break;
+        case "INTERMEDIATE":
+            difficulty = Difficulty.INTERMEDIATE;
+            break;
+        case "ADVANCED":
+            difficulty = Difficulty.ADVANCED;
+            break;
+        default:
+            console.log("Difficulty: ", difficultyString);
+            throw new Error("Invalid difficulty value");
+    }
+
     console.log("isPublic:", isPublic);
 
-    const newDeck = await prisma.deck.create({ 
+    const newCourse = await prisma.course.create({ 
         data: { 
             title, 
             description,
-            isPublic,
+            isPublic: false,
+            difficulty: difficulty,
             author: {
                 connect: { clerkId: user?.id },
             },
             isCopy: false,
         }});
 
-    redirect(`/decks/${newDeck.id}`);
+    redirect(`/courses/${newCourse.id}`);
 }
 
-export async function editDeck(formData: FormData) {
+export async function editCourse(formData: FormData) {
     const id = formData.get("id") as string;
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
@@ -84,7 +76,7 @@ export async function editDeck(formData: FormData) {
         answer: string;
       }>;
 
-      await prisma.deck.update({
+      await prisma.course.update({
         where: { id },
         data: {
           title,
@@ -96,69 +88,126 @@ export async function editDeck(formData: FormData) {
       });
     
       // Delete existing cards for the deck
-      await prisma.card.deleteMany({
-        where: { deckId: id },
+      await prisma.lesson.deleteMany({
+        where: { courseId: id },
       });
     
       // Create new cards for the deck
-      await prisma.card.createMany({
-        data: cards.map((card) => ({
-          question: card.question,
-          answer: card.answer,
-          deckId: id,
-        })),
-      });
+    //   await prisma.lesson.createMany({
+    //     data: cards.map((card) => ({
+    //       question: card.question,
+    //       answer: card.answer,
+    //       deckId: id,
+    //     })),
+    //   });
 
     redirect(`/decks/${id}`);
 }
 
-export async function deleteDeck(id: string) {
-    await prisma.deck.delete({
+export async function deleteCourse(id: string) {
+    await prisma.course.delete({
         where: {id}
     });
 
-    redirect("/decks");
+    redirect("/courses");
 }
 
-export async function fetchPublicDecks(): Promise<DeckWithRelations[]> {
-    return await prisma.deck.findMany({
-        where: { isPublic: true },
-        include: { cards: true, author: true, students: true, savedBy: true, guide: true },
-    });
-}
-
-export async function fetchMyDecks(authorId: string): Promise<DeckWithRelations[]> {
-    return await prisma.deck.findMany({
-        where: { authorId: authorId },
-        include: { cards: true, author: true, students: true, savedBy: true, guide: true },
-    });
-}
-
-export async function fetchDeckById(id: string): Promise<DeckWithRelations | null> {
-    const deck = await prisma.deck.findUnique({
+export async function publishCourse(id: string) {
+    await prisma.course.update({
         where: { id },
-        include: { cards: true, author: true, students: true, savedBy: true, guide: true },
+        data: {
+            isPublic: true
+        }
+    })
+
+    redirect(`/courses/${id}`);
+}
+
+export async function fetchPublicCourses(): Promise<CourseWithRelations[]> {
+    return await prisma.course.findMany({
+        where: { isPublic: true },
+        include: { lessons: true, author: true, students: true, savedBy: true, guide: true },
+    });
+}
+
+export async function fetchMyCourses(authorId: string): Promise<CourseWithRelations[]> {
+    return await prisma.course.findMany({
+        where: { authorId: authorId },
+        include: { lessons: true, author: true, students: true, savedBy: true, guide: true },
+    });
+}
+
+export async function fetchCourseById(id: string): Promise<CourseWithRelations | null> {
+    const course = await prisma.course.findUnique({
+        where: { id },
+        include: { lessons: true, author: true, students: true, savedBy: true, guide: true },
     });
 
-    if(!deck) {
+    if(!course) {
         notFound()
     }
 
-    return deck;
+    return course;
+}
+
+export async function fetchLessonById(id: number) {
+    const lesson = await prisma.lesson.findUnique({
+        where: {id},
+        include: {
+            terms: true,
+            course: {
+                select: {
+                    id: true,
+                    title: true,
+                    difficulty: true,
+                    author: true,
+                }
+            },
+        }
+    })
+
+    if(!lesson) {
+        notFound()
+    }
+
+    return lesson;
+}
+
+export async function getTermsWithProgress(lessonId: number, userId: string) {
+    const terms = await prisma.term.findMany({
+        where: {
+            lessonId
+        },
+        include: {
+            progress: {
+                where: {
+                    userId
+                },
+            },
+        },
+    })
+
+    return terms.map(term => ({
+        id: term.id,
+        question: term.question,
+        questionAlt: term.questionAlt,
+        answer: term.answer,
+        correctCount: term.progress[0]?.correctCount ?? 0
+    }))
 }
 
 export async function getUser(clerkId: string): Promise<UserWithRelations | null> {
     return await prisma.user.findUnique({
         where: { clerkId },
         include: {
-            lastStudiedDecks: {
+            lastStudiedCourses: {
                 include: {
                     author: true,
-                    cards: true,
+                    lessons: true,
                     savedBy: true,
                 }
             },
-            savedDecks: true
+            savedCourses: true,
         }
     });
 }
@@ -167,14 +216,14 @@ export async function getUserById(userId: string) {
     return await prisma.user.findUnique({
         where: { id: userId },
         include: {
-            lastStudiedDecks: {
+            lastStudiedCourses: {
                 include: {
                     author: true,
-                    cards: true,
+                    lessons: true,
                     savedBy: true,
                 }
             },
-            savedDecks: true
+            savedCourses: true
         }
     })
 }
@@ -188,12 +237,12 @@ export async function updateUserScore(id: string, points: number) {
     })
 }
 
-export async function updateDeckScore(userId: string, deckId: string, scoreToAdd: number) {
-    await prisma.deckScore.upsert({
+export async function updateDeckScore(userId: string, courseId: string, scoreToAdd: number) {
+    await prisma.courseScore.upsert({
         where: {
-            userId_deckId: {
+            userId_courseId: {
                 userId,
-                deckId,
+                courseId,
             },
         },
         update: {
@@ -203,16 +252,16 @@ export async function updateDeckScore(userId: string, deckId: string, scoreToAdd
         },
         create: {
             userId,
-            deckId,
+            courseId,
             score: scoreToAdd,
         },
     });
 }
 
-export async function getDeckScores(deckId: string) {
-    return await prisma.deckScore.findMany({
+export async function getCourseScores(courseId: string) {
+    return await prisma.courseScore.findMany({
         where: {
-            deckId
+            courseId
         },
         include: {
             user: {
@@ -226,26 +275,64 @@ export async function getDeckScores(deckId: string) {
     })
 }
 
-export async function updateRecentDecks(clerkId: string, deckId: string) {
+export async function getTermWithProgress(lessonId: number, userId: string){
+    return await prisma.term.findMany({
+        where: {
+            lessonId
+        },
+        include: {
+            progress: {
+                where: {
+                    userId
+                }
+            }
+        }
+    })
+}
+
+export async function getTermProgress(lessonId: number, userId: string) {
+    return await prisma.term.findMany({
+        where: {
+            lessonId
+        },
+        select: {
+            id: true,
+            question: true,
+            questionAlt: true,
+            answer: true,
+            progress: {
+                where: {
+                    userId
+                },
+                select: {
+                    correctCount: true
+                }
+            }
+        }
+    });
+}
+
+
+export async function updateRecentDecks(clerkId: string, courseId: string) {
     const user = await prisma.user.findUnique({
         where: { clerkId },
-        include: { lastStudiedDecks: true },
+        include: { lastStudiedCourses: true },
     });
 
     // Keep only the last 2 studied decks
-    const updatedDecks = [...user!.lastStudiedDecks.map(deck => deck.id), deckId].slice(-2);
+    const updatedDecks = [...user!.lastStudiedCourses.map(course => course.id), courseId].slice(-2);
 
     await prisma.user.update({
         where: { clerkId },
         data: {
-            lastStudiedDecks: {
+            lastStudiedCourses: {
                 set: updatedDecks.map(id => ({id})),
             }
         }
     })
 
-    await prisma.deck.update({
-        where: { id: deckId },
+    await prisma.course.update({
+        where: { id: courseId },
         data: {
             students: {
                 connect: {id: user?.id}
@@ -258,7 +345,7 @@ export async function addDeckToSaved(clerkId: string, deckId: string) {
     await prisma.user.update({
         where: {clerkId},
         data: {
-            savedDecks: {connect: { id: deckId }},
+            savedCourses: {connect: { id: deckId }},
         }
     })
     console.log(`Deck ${deckId} saved for User ${clerkId}`)
@@ -268,14 +355,14 @@ export async function removeDeckFromSaved(clerkId: string, deckId: string) {
     await prisma.user.update({
         where: { clerkId },
         data: {
-            savedDecks: { disconnect: { id: deckId } },
+            savedCourses: { disconnect: { id: deckId } },
         },
     });
     console.log(`Deck ${deckId} removed from saved decks for User ${clerkId}`)
 }
 
 export async function isDeckSaved(clerkId: string, deckId: string) {
-    const deck = await prisma.deck.findFirst({
+    const deck = await prisma.course.findFirst({
         where: {
             id: deckId,
             savedBy: {
@@ -293,9 +380,9 @@ export async function getSavedDecksForUser(clerkId: string) {
     const user = await prisma.user.findUnique({
         where: { clerkId },
         include: {
-            savedDecks: {
+            savedCourses: {
                 include: {
-                    cards: true,
+                    lessons: true,
                     author: true,
                     students: true,
                     savedBy: true,
@@ -304,15 +391,15 @@ export async function getSavedDecksForUser(clerkId: string) {
         }
     })
 
-    return user?.savedDecks;
+    return user?.savedCourses;
 }
 
-export async function createCard(formData: FormData) {
+export async function create(formData: FormData) {
     const question = formData.get("question") as string;
     const answer = formData.get("answer") as string;
     const deckId = formData.get("deckId") as string;
 
-    await prisma.card.create({
+    await prisma.lesson.create({
         data: {
             question,
             answer,

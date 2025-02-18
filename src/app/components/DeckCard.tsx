@@ -1,16 +1,16 @@
 import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import { ChevronRight } from "@mui/icons-material";
-import { Deck, Prisma } from "@prisma/client";
+import { Course, Prisma } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-type DeckWithRelations = Prisma.DeckGetPayload<{
-  include: { cards: true; author: true };
+type CourseWithRelations = Prisma.CourseGetPayload<{
+  include: { lessons: true; author: true };
 }>;
 
-type DeckCardProps = {
-  deck: DeckWithRelations | undefined | null;
+type CourseCardProps = {
+  course: CourseWithRelations | undefined | null;
 };
 
 // const DeckCard = ({ deck }: DeckCardProps) => {
@@ -43,19 +43,20 @@ type DeckCardProps = {
 
 // export default DeckCard;
 
-const DeckCard = ({ deck }: DeckCardProps) => {
+const CourseCard = ({ course }: CourseCardProps) => {
   return (
     <Link
-      href={`/decks/${deck?.id}`}
+      href={`/courses/${course?.id}`}
       className="focus:outline-none focus-visible:ring-white focus-visible:ring-2 rounded-lg"
     >
       <div className="text-sm relative h-[140px] p-4 border-2 border-white/10 hover:bg-white/5 group rounded-xl transition-all flex flex-col justify-between">
         <div className="text-white/85 h-[40px] font-semibold me-5 line-clamp-2 overflow-ellipsis">
-          {deck?.title}
+          {course?.title}
         </div>
         <div className="flex items-center me-5">
-          <div className="text-xs text-white/55 bg-white/10 inline-block rounded-full px-2 py-0.5">
-            {deck?.cards.length} {deck?.cards.length === 1 ? "term" : "terms"}
+          <div className="text-xs font-light text-white/55 bg-white/10 inline-block rounded-full px-2 py-0.5">
+            {course?.lessons.length}{" "}
+            {course?.lessons.length === 1 ? "lesson" : "lessons"}
           </div>
         </div>
         <div className="flex items-center text-white/60">
@@ -65,7 +66,7 @@ const DeckCard = ({ deck }: DeckCardProps) => {
             </ClerkLoading>
             <ClerkLoaded>
               <Image
-                src={deck!.author.imageURL}
+                src={course!.author.imageURL}
                 width={100}
                 height={100}
                 alt="Avatar"
@@ -73,7 +74,7 @@ const DeckCard = ({ deck }: DeckCardProps) => {
               />
             </ClerkLoaded>
           </div>
-          <div className="text-sm">{deck?.author.username}</div>
+          <div className="text-sm font-light">{course?.author.username}</div>
         </div>
         <div className="absolute z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 right-3 top-1/2 transform -translate-y-1/2">
           <ChevronRight />
@@ -83,4 +84,4 @@ const DeckCard = ({ deck }: DeckCardProps) => {
   );
 };
 
-export default DeckCard;
+export default CourseCard;

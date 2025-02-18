@@ -1,7 +1,7 @@
-import { fetchMyDecks, getUser } from "@/actions/actions";
+import { fetchMyCourses, getUser } from "@/actions/actions";
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
-import MyDecksCard from "./MyDecksCard";
+import MyCoursesCard from "./MyCoursesCard";
 
 const MyDecksList = async () => {
   const clerkUser = await currentUser();
@@ -18,12 +18,12 @@ const MyDecksList = async () => {
     return <div>Error: User data not found</div>;
   }
 
-  const decks = await fetchMyDecks(user.id);
+  const courses = await fetchMyCourses(user.id);
   return (
     <>
-      {decks.map((deck) => (
-        <li key={deck.id}>
-          <MyDecksCard deck={deck} />
+      {courses.map((course) => (
+        <li key={course.id}>
+          <MyCoursesCard course={course} />
         </li>
       ))}
     </>

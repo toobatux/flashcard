@@ -174,10 +174,16 @@ li {
   @apply list-none;
 }
 
+/* bg-gradient-to-r from-slate-800 to-gray-700 */
+/* bg-gradient-to-b from-white/15 to-[#1E1E24] */
+/* bg-gradient-to-b from-[#1C1E22] to-[#070707] */
+
 .app-bg {
-  @apply bg-[#1E1E24];
+  /* @apply bg-[#1E1E24]; */
+  @apply bg-black/10 dark:bg-[#111111];
 }
 
 .nav-bg {
-  @apply bg-[#17171c];
+  /* @apply bg-[#17171c]; */
+  @apply bg-[#111111];
 }

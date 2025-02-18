@@ -10,28 +10,8 @@ import BookmarkOutlined from "@mui/icons-material/BookmarkBorderOutlined";
 import SchoolIcon from "@mui/icons-material/School";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import { useState } from "react";
-
-const mainNavLinks: Array<{
-  name: string;
-  href: string;
-  filled: React.ComponentType;
-  outlined: React.ComponentType;
-}> = [
-  { name: "Home", href: "/home", filled: HomeIcon, outlined: HomeOutlined },
-  { name: "Decks", href: "/decks", filled: Layers, outlined: LayersOutlined },
-  {
-    name: "Guides",
-    href: "/guides",
-    filled: SchoolIcon,
-    outlined: SchoolOutlinedIcon,
-  },
-  {
-    name: "Library",
-    href: "/library",
-    filled: Bookmark,
-    outlined: BookmarkOutlined,
-  },
-];
+import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
 
 interface SideNavProps {
   isOpenMobile: boolean;
@@ -46,11 +26,38 @@ const SideNav = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const mainNavLinks: Array<{
+    name: string;
+    href: string;
+    filled: React.ComponentType | any;
+    outlined: React.ComponentType | any;
+  }> = [
+    { name: "Home", href: "/home", filled: HomeIcon, outlined: HomeOutlined },
+    {
+      name: "Courses",
+      href: "/courses",
+      filled: Layers,
+      outlined: LayersOutlined,
+    },
+    {
+      name: "Guides",
+      href: "/guides",
+      filled: SchoolIcon,
+      outlined: SchoolOutlinedIcon,
+    },
+    {
+      name: "Library",
+      href: "/library",
+      filled: Bookmark,
+      outlined: BookmarkOutlined,
+    },
+  ];
+
   return (
     <nav
       className={`fixed z-10 md:relative md:flex-none bottom-0 left-0 w-full h-22 flex justify-start ${
-        isOpen ? "md:w-64" : "md:w-[88px]"
-      } md:min-h-screen navbg lg:transition-all nav-bg`}
+        isOpen ? "md:w-56" : "md:w-[88px]"
+      } md:min-h-screen navbg lg:transition-all nav-bg border-t-2 md:border-t-0 md:border-r-2 border-white/5`}
     >
       {/* border-t-2 md:border-t-0 md:border-r-2 border-white/10 */}
       <div className="md:fixed md:top-0 w-[inherit]">
@@ -73,7 +80,7 @@ const SideNav = () => {
 
           <ul className="flex md:block w-full justify-center gap-1 md:space-y-1">
             {mainNavLinks.map((link) => {
-              const isActive = path === link.href;
+              const isActive = path.startsWith(link.href);
               const IconComponent = isActive ? link.filled : link.outlined;
               return (
                 <li

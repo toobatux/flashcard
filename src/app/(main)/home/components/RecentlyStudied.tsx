@@ -1,24 +1,24 @@
 import { Prisma } from "@prisma/client";
-import DeckCard from "@/app/components/DeckCard";
+import CourseCard from "@/app/components/DeckCard";
 
-type DeckWithRelations = Prisma.DeckGetPayload<{
-  include: { cards: true; author: true };
+type CourseWithRelations = Prisma.CourseGetPayload<{
+  include: { lessons: true; author: true };
 }>;
 
 type RecentlyStudiedProps = {
-  decks: DeckWithRelations[] | undefined | null;
+  courses: CourseWithRelations[] | undefined | null;
 };
 
-export function RecentlyStudied({ decks }: RecentlyStudiedProps) {
+export function RecentlyStudied({ courses }: RecentlyStudiedProps) {
   return (
     <>
-      {decks && decks.length > 0 ? (
+      {courses && courses.length > 0 ? (
         <>
           <div className="rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {decks?.map((deck) => (
-                <div key={deck.id}>
-                  <DeckCard deck={deck} />
+              {courses?.map((Course) => (
+                <div key={Course.id}>
+                  <CourseCard course={Course} />
                 </div>
               ))}
             </div>

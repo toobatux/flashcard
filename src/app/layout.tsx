@@ -5,11 +5,11 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { dark } from "@clerk/themes";
-import { Roboto, Poppins } from "next/font/google";
+import { Roboto, Poppins, Onest } from "next/font/google";
 
-const poppins = Poppins({
+const onest = Onest({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
 });
@@ -53,7 +53,7 @@ export default function RootLayout({
       <html lang="en">
         {/* ${geistSans.variable} ${geistMono.variable} */}
         <body
-          className={`${geistSans.className} antialiased min-h-screen flex flex-col app-bg`}
+          className={`${onest.className} antialiased min-h-screen flex flex-col app-bg`}
         >
           {/* <ClerkLoading>
             <div className="flex w-full h-screen justify-center items-center">
@@ -62,7 +62,9 @@ export default function RootLayout({
           </ClerkLoading> */}
           {/* <ClerkLoaded> */}
           {/* <Navbar /> */}
-          <main className="flex-grow w-full h-full">{children}</main>
+          <main className="flex-grow w-full h-full text-black dark:text-white">
+            {children}
+          </main>
           {/* <Footer /> */}
           {/* </ClerkLoaded> */}
         </body>

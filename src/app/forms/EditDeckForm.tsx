@@ -1,67 +1,8 @@
-// import { editDeck, fetchDeckById } from "@/actions/actions";
-
-// interface EditDeckFormProps {
-//   // deck: Deck | undefined;
-//   deckId: string;
-// }
-
-// export default async function EditDeckForm({ deckId }: EditDeckFormProps) {
-//   const deck = await fetchDeckById(deckId);
-//   return (
-//     <form action={editDeck} className="flex flex-col gap-y-4 w-full">
-//       <div>
-//         <input type="hidden" name="id" value={deck?.id} />
-//         <label
-//           htmlFor="title"
-//           className="block tracking-wide text-sm text-white/90 font-bold"
-//         >
-//           Title
-//         </label>
-//         <input
-//           type="text"
-//           name="title"
-//           id="title"
-//           defaultValue={deck?.title}
-//           placeholder="Deck Title"
-//           className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"
-//         />
-//       </div>
-//       <div>
-//         <div className="flex justify-between items-center">
-//           <label
-//             htmlFor="desc"
-//             className="block tracking-wide text-sm text-white/90 font-bold"
-//           >
-//             Description
-//           </label>
-//           <span className="block tracking-wide text-sm text-white/50">
-//             Optional
-//           </span>
-//         </div>
-//         <textarea
-//           name="description"
-//           id="desc"
-//           defaultValue={deck?.description}
-//           rows={2}
-//           placeholder="Deck description"
-//           className="w-full mt-2 border border-white/15 bg-white/5 rounded-lg py-1.5 px-2 placeholder-white/50 focus:outline-none focus:border-blue-500"
-//         ></textarea>
-//       </div>
-//       <hr className="border border-white/10" />
-//       <button
-//         type="submit"
-//         className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl py-2 px-4 mt-4 transition-colors"
-//       >
-//         Save
-//       </button>
-//     </form>
-//   );
-// }
-
 "use client";
 import { useState, useEffect } from "react";
-import { editDeck, fetchDeckById } from "@/actions/actions";
+import { editDeck } from "@/actions/actions";
 import { Add, Close } from "@mui/icons-material";
+import { Course } from "@prisma/client";
 
 interface Card {
   id?: number; // Prisma uses Int as the Card ID
@@ -70,10 +11,10 @@ interface Card {
 }
 
 interface EditDeckFormProps {
-  deckId: string;
+  course: Course;
 }
 
-export default function EditDeckForm({ deckId }: EditDeckFormProps) {
+export default function EditDeckForm({ course }: EditDeckFormProps) {
   const [deck, setDeck] = useState<Awaited<ReturnType<typeof fetchDeckById>>>();
   const [cards, setCards] = useState<Card[]>([]);
   const [isPublic, setIsPublic] = useState(deck?.isPublic || false);

@@ -14,61 +14,106 @@ datasource db {
 }
 
 enum Difficulty {
-  Beginner
-  Intermediate
-  Advanced
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum Type {
+  SELECT
 }
 
 model User {
-  id               String      @id @default(cuid())
-  clerkId          String      @unique
-  email            String      @unique
-  username         String?
-  imageURL         String
-  decks            Deck[]
-  lastStudiedDecks Deck[]      @relation("LastStudiedDecks")
-  savedDecks       Deck[]      @relation("SavedDecks")
-  score            Int         @default(0)
-  guides           Guide[]
-  deckScores       DeckScore[]
+  id                 String             @id @default(cuid())
+  clerkId            String             @unique
+  email              String             @unique
+  username           String?
+  imageURL           String
+  courses            Course[]
+  lastStudiedCourses Course[]           @relation("LastStudiedCourses")
+  savedCourses       Course[]           @relation("SavedDecks")
+  score              Int                @default(0)
+  guides             Guide[]
+  courseScores       CourseScore[]
+  progress           UserTermProgress[]
+  activeCourseId     Int                @default(1)
 }
 
-model Deck {
-  id          String      @id @default(cuid())
-  title       String      @db.VarChar(255)
-  description String?     @db.VarChar(500)
-  difficulty  Difficulty  @default(Beginner)
-  createdOn   DateTime    @default(now())
-  updatedOn   DateTime    @updatedAt
-  authorId    String
-  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  cards       Card[]
-  students    User[]      @relation("LastStudiedDecks")
-  savedBy     User[]      @relation("SavedDecks")
-  isPublic    Boolean
-  isCopy      Boolean
-  guide       Guide?
-  deckScores  DeckScore[]
+model Course {
+  id           String        @id @default(cuid())
+  title        String        @db.VarChar(255)
+  description  String?       @db.VarChar(500)
+  difficulty   Difficulty    @default(BEGINNER)
+  createdOn    DateTime      @default(now())
+  updatedOn    DateTime      @updatedAt
+  authorId     String
+  author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  lessons      Lesson[]
+  students     User[]        @relation("LastStudiedCourses")
+  savedBy      User[]        @relation("SavedDecks")
+  isPublic     Boolean
+  isCopy       Boolean
+  guide        Guide?
+  courseScores CourseScore[]
 }
 
-model Card {
-  // id       String @id @default(cuid())
-  id       Int    @id @default(autoincrement())
-  question String @db.VarChar(500)
-  answer   String @db.VarChar(500)
-  deckId   String
-  deck     Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+model Term {
+  id          Int                @id @default(autoincrement())
+  question    String             @db.VarChar(500)
+  questionAlt String?            @db.VarChar(500)
+  answer      String             @db.VarChar(500)
+  lessonId    Int
+  lesson      Lesson             @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  progress    UserTermProgress[]
 }
 
-model DeckScore {
-  id     String @id @default(cuid())
-  score  Int    @default(0)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  deck   Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  deckId String
+model Lesson {
+  id           Int         @id @default(autoincrement())
+  lessonNumber Int         @default(1)
+  title        String      @db.VarChar(255)
+  challenges   Challenge[]
+  courseId     String
+  course       Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  terms        Term[]
+}
 
-  @@unique([userId, deckId]) // Composite unique constraint on userId and deckId
+model Challenge {
+  id               Int                @id @default(autoincrement())
+  text             String             @db.VarChar(500)
+  type             Type               @default(SELECT)
+  challengeOptions ChallengeOptions[]
+  lessonId         Int
+  lesson           Lesson             @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+model ChallengeOptions {
+  id          Int       @id @default(autoincrement())
+  text        String    @db.VarChar(255)
+  correct     Boolean
+  challengeId Int
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model CourseScore {
+  id       String @id @default(cuid())
+  score    Int    @default(0)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+
+  @@unique([userId, courseId]) // Composite unique constraint on userId and deckId
+}
+
+model UserTermProgress {
+  id           Int    @id @default(autoincrement())
+  userId       String
+  termId       Int
+  correctCount Int    @default(0)
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term         Term   @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, termId])
 }
 
 model Guide {
@@ -79,7 +124,7 @@ model Guide {
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   createdOn DateTime @default(now())
   updatedOn DateTime @updatedAt
-  deckId    String?  @unique
-  deck      Deck?    @relation(fields: [deckId], references: [id], onDelete: SetNull)
+  courseId  String?  @unique
+  course    Course?  @relation(fields: [courseId], references: [id], onDelete: SetNull)
   imageURL  String?
 }

@@ -33,7 +33,7 @@ export default async function Home() {
               </div>
             }
           >
-            <RecentlyStudied decks={user?.lastStudiedDecks} />
+            <RecentlyStudied courses={user?.lastStudiedCourses} />
           </Suspense>
         </div>
       </div>

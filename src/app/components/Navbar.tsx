@@ -69,7 +69,7 @@ const Navbar = () => {
                       <NewButton />
                     ))} */}
                   <NewButton />
-                  <ClerkLoading>
+                  {/* <ClerkLoading>
                     <div className="w-[40px] h-[40px] bg-white/5 animate-pulse rounded-full"></div>
                   </ClerkLoading>
                   <ClerkLoaded>
@@ -87,7 +87,7 @@ const Navbar = () => {
                         />
                       </div>
                     </SignedIn>
-                  </ClerkLoaded>
+                  </ClerkLoaded> */}
                 </div>
               </div>
             </div>

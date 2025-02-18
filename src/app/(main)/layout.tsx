@@ -12,7 +12,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Main Content: Scrollable */}
         <div className="flex-1 w-full h-full">
           <Navbar />
-          <main className="w-full max-w-5xl mx-auto p-6 md:p-8 transition-transform pb-20">
+          <main className="w-full max-w-5xl mx-auto pt-6 px-6 md:px-8 md:pt-8 transition-transform pb-[70px] md:pb-[20px]">
             {children}
             {/* <Footer /> */}
           </main>
