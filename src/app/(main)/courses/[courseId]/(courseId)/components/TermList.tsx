@@ -201,11 +201,11 @@ const TermList = ({ terms }: TermListProps) => {
           )}
         </div>
         <div className="sticky right-10 mx-auto max-w-lg justify-center bottom-[70px] md:bottom-5 text-sm px-4">
-          <div className="flex w-full justify-center gap-2 nav-bg p-2 rounded-3xl shadow-xl">
+          <div className="flex w-full justify-center gap-2 nav-bg p-2 rounded-2xl shadow-xl">
             {isFlipped ? (
               <button
                 onClick={handleHideTerms}
-                className={`w-3/4 px-4 py-3 border-2 rounded-2xl transition-colors ${
+                className={`w-3/4 px-4 py-3 border-2 rounded-xl transition-colors ${
                   termHidden
                     ? "bg-white/10 border-transparent hover:bg-white/15"
                     : "border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/5"
@@ -216,7 +216,7 @@ const TermList = ({ terms }: TermListProps) => {
             ) : (
               <button
                 onClick={handleHideDefs}
-                className={`w-3/4 px-4 py-3 border-2 rounded-2xl transition-colors ${
+                className={`w-3/4 px-4 py-3 border-2 rounded-xl transition-colors ${
                   defHidden
                     ? "bg-white/10 border-transparent hover:bg-white/15"
                     : "border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/5"

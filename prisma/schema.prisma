@@ -28,7 +28,7 @@ model User {
   clerkId            String             @unique
   email              String             @unique
   username           String?
-  imageURL           String
+  imageURL           String?
   courses            Course[]
   lastStudiedCourses Course[]           @relation("LastStudiedCourses")
   savedCourses       Course[]           @relation("SavedDecks")

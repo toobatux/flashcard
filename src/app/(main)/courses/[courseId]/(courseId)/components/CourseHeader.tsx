@@ -28,6 +28,8 @@ export default function CourseHeader({
   return (
     <>
       {/* Links */}
+      {/* <div className="bg-gradient-to-b from-slate-800 to-transparent md:rounded-xl"> */}
+      {/* <div className="p-6"> */}
       <div className="flex gap-2 font-light">
         <Link
           href="/courses/"
@@ -44,11 +46,11 @@ export default function CourseHeader({
       </div>
 
       {/* Course title and description */}
-      <div className="my-6 space-y-1">
+      <div className="my-6 space-y-2">
         <div className="text-black dark:text-white text-3xl md:text-4xl font-bold flex">
           {course?.title}
         </div>
-        <div className="text-black dark:text-white/50 text-lg md:text-xl font-light">
+        <div className="text-black dark:text-white/50 font-light">
           {course?.description}
         </div>
       </div>
@@ -66,6 +68,7 @@ export default function CourseHeader({
       </div>
 
       {/* Course progress, More dropdown, and Learn/Review button row */}
+      {/* bg-white/5 p-4 rounded-xl */}
       <div className="flex w-full items-center justify-between mt-3">
         <ProgressBar
           completed={1}
@@ -86,17 +89,19 @@ export default function CourseHeader({
           <div
             className={`${
               isReviewTime
-                ? "bg-blue-700 hover:bg-blue-600"
+                ? "bg-white/95 hover:bg-white/70"
                 : "border border-white/20 text-white/50 hover:bg-white/10 hover:text-white"
-            } text-white h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
+            } text-black h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
           >
             Learn
           </div>
           {/* <LessonStudy/> */}
         </div>
       </div>
-
+      {/* </div> */}
       <hr className="w-full border border-white/5 mt-4 mb-8" />
+      {/* </div> */}
+      {/* <hr className="w-full border border-white/5 mt-4 mb-8" /> */}
     </>
   );
 }

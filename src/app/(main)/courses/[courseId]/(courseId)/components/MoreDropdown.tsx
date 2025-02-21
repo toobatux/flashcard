@@ -1,6 +1,11 @@
 "use client";
 
-import { ContentCopy, EditOutlined, MoreHoriz } from "@mui/icons-material";
+import {
+  ContentCopy,
+  EditOutlined,
+  MoreHoriz,
+  PublishOutlined,
+} from "@mui/icons-material";
 import Link from "next/link";
 import { useState } from "react";
 import DeleteModal from "./DeleteModal";
@@ -38,6 +43,7 @@ const MoreDropdown = ({
 
   const handlePublish = async () => {
     publishCourse(courseId);
+    toggleDropdown();
   };
 
   return (
@@ -55,7 +61,7 @@ const MoreDropdown = ({
       <div className="relative group flex items-center">
         <button
           type="button"
-          className="flex items-center border-2 border-transparent hover:bg-white/10 p-1.5 rounded-full text-white/50  transition-colors"
+          className="flex items-center border-2 border-transparent hover:bg-white/10 p-1.5 rounded-xl text-white/50  transition-colors"
           onClick={toggleDropdown}
           aria-expanded={isOpen}
           aria-haspopup="true"
@@ -71,7 +77,7 @@ const MoreDropdown = ({
       <div
         id="tooltip-default"
         role="tooltip"
-        className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+        className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-xl shadow-sm opacity-0 tooltip dark:bg-gray-700"
       >
         Tooltip content
         <div className="tooltip-arrow" data-popper-arrow></div>
@@ -84,7 +90,7 @@ const MoreDropdown = ({
             onClick={toggleDropdown}
           ></div>
           <div
-            className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md app-bg border border-white/20 shadow-xl ring-1 ring-black ring-opacity-5"
+            className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-xl app-bg border border-white/20 shadow-xl ring-1 ring-black ring-opacity-5"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
@@ -93,15 +99,16 @@ const MoreDropdown = ({
               {isCoursePage && !course.isPublic && userIsAuthor && (
                 <button
                   onClick={handlePublish}
-                  className="flex items-center gap-3 py-3 px-2 text-sm  text-white/70 hover:bg-white/10 rounded"
+                  className="flex w-full items-center gap-3 py-3 px-2 text-sm  text-white/70 hover:bg-white/10 rounded-lg"
                 >
+                  <PublishOutlined className="text-white/50" />
                   Publish course
                 </button>
               )}
               {userIsAuthor && (
                 <Link
                   href={`/courses/${courseId}/edit`}
-                  className="flex items-center gap-3 py-3 px-2 text-sm  text-white/70 hover:bg-white/10 rounded"
+                  className="flex items-center gap-3 py-3 px-2 text-sm  text-white/70 hover:bg-white/10 rounded-lg"
                   role="menuitem"
                 >
                   <EditOutlined className="text-white/50" />
@@ -127,7 +134,7 @@ const MoreDropdown = ({
               <button
                 onClick={handleCreateCopy}
                 disabled={isDisabled}
-                className={`flex w-full items-center gap-3 py-3 px-2 text-sm  text-white/70 hover:bg-white/10 rounded ${
+                className={`flex w-full items-center gap-3 py-3 px-2 text-sm  text-white/70 hover:bg-white/10 rounded-lg ${
                   isDisabled && "opacity-50"
                 }`}
                 role="menuitem"

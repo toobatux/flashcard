@@ -36,7 +36,7 @@ const DeleteModal = ({ courseId }: DeleteModalProps) => {
       //   onClick={handleClose}
     >
       <div
-        className="app-bg rounded-lg shadow-lg p-6 max-w-sm w-full"
+        className="app-bg rounded-xl shadow-lg p-6 max-w-sm w-full"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-xl font-semibold mb-2">Delete course?</div>
@@ -86,7 +86,7 @@ const DeleteModal = ({ courseId }: DeleteModalProps) => {
       {/* Button to Open Modal */}
       <button
         type="button"
-        className="flex items-center gap-3 w-full text-left py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded"
+        className="flex items-center gap-3 w-full text-left py-3 px-2 text-sm font-semibold text-white/70 hover:bg-white/10 rounded-lg"
         role="menuitem"
         onClick={toggleModal}
       >

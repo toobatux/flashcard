@@ -49,17 +49,30 @@ const CourseCard = ({ course }: CourseCardProps) => {
       href={`/courses/${course?.id}`}
       className="focus:outline-none focus-visible:ring-white focus-visible:ring-2 rounded-lg"
     >
-      <div className="text-sm relative h-[140px] p-4 border-2 border-white/10 hover:bg-white/5 group rounded-xl transition-all flex flex-col justify-between">
-        <div className="text-white/85 h-[40px] font-semibold me-5 line-clamp-2 overflow-ellipsis">
-          {course?.title}
+      <div className="relative p-4 h-[160px] md:h-[180px] bg-white/5 hover:bg-white/10 group rounded-xl transition-all flex flex-col justify-between">
+        <div className="space-y-2 md:space-y-2 lg:mb-6">
+          <div className="text-base text-white/85 font-semibold line-clamp-2 overflow-ellipsis">
+            {course?.title}
+          </div>
+          <div className="text-white/50 text-sm line-clamp-2 overflow-ellipsis">
+            {course?.description}
+          </div>
         </div>
-        <div className="flex items-center me-5">
+        <div className="flex gap-2 text-white/50 text-sm line-clamp-1 overflow-ellipsis">
+          <span className="capitalize">{course?.difficulty.toLowerCase()}</span>
+          <span>•</span>
+          <span className="">
+            {course?.lessons.length}{" "}
+            {course?.lessons.length === 1 ? "lesson" : "lessons"}
+          </span>
+        </div>
+        {/* <div className="flex items-center me-5">
           <div className="text-xs font-light text-white/55 bg-white/10 inline-block rounded-full px-2 py-0.5">
             {course?.lessons.length}{" "}
             {course?.lessons.length === 1 ? "lesson" : "lessons"}
           </div>
-        </div>
-        <div className="flex items-center text-white/60">
+        </div> */}
+        {/* <div className="flex items-center text-white/60">
           <div className="flex w-5 h-5 me-2">
             <ClerkLoading>
               <div className="w-full h-full rounded-full bg-white/5 animate-pulse"></div>
@@ -75,10 +88,10 @@ const CourseCard = ({ course }: CourseCardProps) => {
             </ClerkLoaded>
           </div>
           <div className="text-sm font-light">{course?.author.username}</div>
-        </div>
-        <div className="absolute z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 right-3 top-1/2 transform -translate-y-1/2">
+        </div> */}
+        {/* <div className="bg-white/50 p-1 rounded-xl absolute z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 right-3 top-1/2 transform -translate-y-1/2">
           <ChevronRight />
-        </div>
+        </div> */}
       </div>
     </Link>
   );

@@ -28,9 +28,9 @@ export default function LessonBody({ terms }: LessonBodyProps) {
 
   return (
     <>
-      <div className="flex flex-col w-full mt-6">
+      <div className="flex flex-col w-full">
         {/* <div className="sticky top-16 z-20"> */}
-        <div className="flex w-full gap-1">
+        {/* <div className="flex w-full gap-1">
           <button
             className={`w-full py-2 border-b-4 rounded-s-xl ${
               isTermsOpen
@@ -51,7 +51,7 @@ export default function LessonBody({ terms }: LessonBodyProps) {
           >
             Guide
           </button>
-        </div>
+        </div> */}
         {/* </div> */}
         {isTermsOpen ? (
           <TermList terms={terms} />

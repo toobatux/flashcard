@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <>
       {/* border-b border-black dark:border-white/15 */}
-      <div className="sticky top-0 z-40 w-full min-h-16 app-bg border-b border-black dark:border-white/10 flex items-center">
+      <div className="sticky top-0 z-40 w-full app-bg border-b-2 border-white/5 flex items-center">
         <div className="flex w-full h-full justify-center ms-4 me-4">
           <div className="flex-auto w-full h-full flex items-center">
             <div className="flex flex-col w-full my-3">
@@ -53,7 +53,7 @@ const Navbar = () => {
                     <div className="font-bold text-lg">StudyPal</div>
                   </Link>
                 </div> */}
-                <div className="flex items-center justify-center mx-auto md:pl-[98px] w-full max-w-[30rem]">
+                <div className="flex items-center lg:justify-center mx-auto lg:pl-[120px] w-full max-w-[31rem]">
                   <Searchbar />
                 </div>
                 <div className="flex items-center justify-end space-x-4 w-auto ms-4">
@@ -69,7 +69,7 @@ const Navbar = () => {
                       <NewButton />
                     ))} */}
                   <NewButton />
-                  {/* <ClerkLoading>
+                  <ClerkLoading>
                     <div className="w-[40px] h-[40px] bg-white/5 animate-pulse rounded-full"></div>
                   </ClerkLoading>
                   <ClerkLoaded>
@@ -87,7 +87,7 @@ const Navbar = () => {
                         />
                       </div>
                     </SignedIn>
-                  </ClerkLoaded> */}
+                  </ClerkLoaded>
                 </div>
               </div>
             </div>

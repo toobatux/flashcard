@@ -14,7 +14,7 @@ export default async function MyDecks() {
   console.log(user);
   return (
     <>
-      <div className="md:my-6 my-4">
+      <div className="lg:my-6">
         <div className="flex items-center gap-4 mb-10">
           <Image
             src={clerkUser?.imageUrl}

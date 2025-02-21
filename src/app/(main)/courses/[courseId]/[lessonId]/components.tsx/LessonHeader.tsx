@@ -20,6 +20,8 @@ export default function LessonHeader({
   return (
     <>
       <div className="">
+        {/* <div className="bg-gradient-to-b from-slate-800 to-transparent rounded-xl"> */}
+        {/* <div className="p-6"> */}
         <div className="flex gap-2 font-light mb-3">
           <Link
             href="/courses/"
@@ -94,20 +96,23 @@ export default function LessonHeader({
               course={lesson.course}
               isCoursePage={false}
             />
+            {/* bg-blue-700 hover:bg-blue-600 */}
             <div
               className={`${
                 isReviewTime
-                  ? "bg-blue-700 hover:bg-blue-600"
+                  ? "bg-white/95 hover:bg-white/70"
                   : "border border-white/20 text-white/50 hover:bg-white/10 hover:text-white"
-              } text-white h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
+              } text-black h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
             >
               Learn
             </div>
             {/* <LessonStudy/> */}
           </div>
         </div>
-        {/* <hr className="border border-black/10 dark:border-white/5 mt-6" /> */}
       </div>
+      <hr className="border border-black/10 dark:border-white/5 mt-6" />
+      {/* </div> */}
+      {/* </div> */}
     </>
   );
 }

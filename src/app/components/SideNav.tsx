@@ -12,6 +12,8 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import LogoSVG from "../../../public/Slogo.svg";
+import { HelpOutline, MenuOutlined } from "@mui/icons-material";
 
 interface SideNavProps {
   isOpenMobile: boolean;
@@ -57,27 +59,29 @@ const SideNav = () => {
     <nav
       className={`fixed z-10 md:relative md:flex-none bottom-0 left-0 w-full h-22 flex justify-start ${
         isOpen ? "md:w-56" : "md:w-[88px]"
-      } md:min-h-screen navbg lg:transition-all nav-bg border-t-2 md:border-t-0 md:border-r-2 border-white/5`}
+      } md:min-h-screen navbg lg:transition-all nav-bg`}
     >
-      {/* border-t-2 md:border-t-0 md:border-r-2 border-white/10 */}
-      <div className="md:fixed md:top-0 w-[inherit]">
-        <div className="flex md:flex-col w-full items-center justify-around p-2 md:p-4 gap-2">
-          {/* Korean Text or Logo */}
-          <div className="hidden md:flex w-full justify-center items-center px-4 pt-1 pb-4">
-            {/* <span className="hidden lg:flex w-full font-bold p-2">Korean</span> */}
+      <div className="md:fixed md:top-0 w-[inherit] h-full flex flex-col">
+        <div className="flex md:flex-col w-full items-center py-2 md:px-4 gap-2">
+          {/* Korean Text or Logo section remains the same */}
+          <div
+            className={`hidden md:flex h-[45px] w-full justify-between items-center ${
+              isOpen && "ps-4"
+            } mb-2`}
+          >
+            <div className={`${isOpen ? "hidden md:flex" : "hidden"} gap-4`}>
+              <Image src={LogoSVG} width={24} height={24} alt="Logo" />
+              STUDY
+            </div>
             <button
               onClick={toggleNav}
-              className="flex w-full justify-start gap-4"
+              className="px-4 py-1 h-full rounded-xl hover:bg-white/5"
             >
-              <span className="hidden md:flex w-[24px] h-[24px] text-2xl items-end justify-center">
-                &#128507;
-              </span>
-              <div className={`${isOpen ? "hidden md:flex" : "hidden"}`}>
-                STUDYAPP
-              </div>
+              <MenuOutlined className="text-white/50 " />
             </button>
           </div>
 
+          {/* Main navigation links */}
           <ul className="flex md:block w-full justify-center gap-1 md:space-y-1">
             {mainNavLinks.map((link) => {
               const isActive = path.startsWith(link.href);
@@ -85,7 +89,7 @@ const SideNav = () => {
               return (
                 <li
                   key={link.name}
-                  className={`flex-1 w-full h-[45px] items-center justify-center transition-colors rounded-lg ${
+                  className={`flex-1 w-full h-[50px] items-center justify-center transition-colors rounded-xl ${
                     isActive
                       ? "bg-black/10 dark:bg-white/5 bg-opacity-10"
                       : "hover:bg-black/5 dark:hover:bg-white/5"
@@ -93,7 +97,7 @@ const SideNav = () => {
                 >
                   <Link
                     href={link.href}
-                    className={`flex w-full h-full items-center px-4 py-1 justify-center md:justify-start  ${
+                    className={`flex w-full h-full items-center px-4 py-2 justify-center md:justify-start ${
                       isOpen ? "md:justify-start" : ""
                     }`}
                   >
@@ -101,20 +105,19 @@ const SideNav = () => {
                       <span
                         className={`flex w-[24px] h-[24px] items-center justify-center ${
                           isActive
-                            ? "dark:fill-white dark:text-white  font-semibold"
-                            : "fill-none stroke-black/50 dark:text-white/50"
+                            ? "dark:fill-white dark:text-white font-semibold"
+                            : "fill-none stroke-black/50 dark:text-white/40"
                         }`}
                         style={{ fontSize: "20px" }}
                       >
-                        {/* {link.icon} */}
                         {IconComponent && <IconComponent />}
                       </span>
                       <span
                         className={`${
                           isOpen ? "md:flex" : "hidden"
                         } hidden items-center ${
-                          isActive ? "dark:text-white" : "dark:text-white/80"
-                        } text-sm`}
+                          isActive ? "dark:text-white" : "dark:text-white/60"
+                        }`}
                       >
                         {link.name}
                       </span>
@@ -124,6 +127,25 @@ const SideNav = () => {
               );
             })}
           </ul>
+        </div>
+
+        {/* Help link at bottom */}
+        <div className="hidden md:flex mt-auto mb-4 px-4">
+          <Link
+            href=""
+            className={`flex gap-4 h-[50px] items-center px-4 py-2 rounded-xl hover:bg-white/5 ${
+              isOpen ? "" : "justify-center"
+            }`}
+          >
+            <span className="flex w-[24px] h-[24px] items-center justify-center dark:text-white/40">
+              <HelpOutline />
+            </span>
+            <span
+              className={`${isOpen ? "md:flex" : "hidden"} dark:text-white/60`}
+            >
+              Help
+            </span>
+          </Link>
         </div>
       </div>
     </nav>

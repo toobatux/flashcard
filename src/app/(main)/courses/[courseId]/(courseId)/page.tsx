@@ -33,7 +33,7 @@ export default async function CoursePage({
     <>
       <div className="lg:my-6 transition-all"></div>
       <div className="flex flex-col xl:flex-row gap-2">
-        <div className="relative flex flex-col max-w-3xl w-full mx-auto">
+        <div className="relative flex flex-col w-full max-w-3xl mx-auto">
           <CourseHeader
             course={course}
             userIsAuthor={userIsAuthor}
@@ -104,7 +104,7 @@ export default async function CoursePage({
             </div>
           </div>
         </div>
-        <div className="flex flex-col max-w-3xl w-full mx-auto">
+        <div className="flex flex-col mx-auto">
           Leaderboard
           {/* <Leaderboard deckScores={} /> */}
         </div>

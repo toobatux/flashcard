@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <>
-      <div className="lg:my-6 my-4">
+      <div className="lg:my-6">
         <Suspense fallback={<GreetingSkeleton />}>
           <Greeting user={user} />
         </Suspense>

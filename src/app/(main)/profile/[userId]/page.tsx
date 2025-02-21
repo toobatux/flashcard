@@ -12,7 +12,7 @@ export default async function ProfilePage({
   const user = await getUserById(userId);
   return (
     <>
-      <div className="md:my-4 lg:my-8"></div>
+      <div className="lg:my-6"></div>
       <div className="relative max-w-3xl mx-auto">
         <div className="flex items-center gap-4">
           <Image
