@@ -1,5 +1,5 @@
-import { getSavedDecksForUser } from "@/actions/actions";
-import DeckCard from "@/app/components/DeckCard";
+import { getSavedCoursesForUser } from "@/actions/actions";
+import CourseCard from "@/app/components/DeckCard";
 import { currentUser } from "@clerk/nextjs/server";
 
 export default async function SavedDecks() {
@@ -10,15 +10,15 @@ export default async function SavedDecks() {
     return <div>Error: User not authenticated.</div>;
   }
 
-  const savedDecks = await getSavedDecksForUser(clerkUser.id);
+  const savedCourses = await getSavedCoursesForUser(clerkUser.id);
 
-  if (!savedDecks || savedDecks.length === 0) return null;
+  // if (!savedCourses || savedCourses.length === 0) return null;
 
   return (
     <>
-      {savedDecks.map((savedDeck) => (
-        <li key={savedDeck.id}>
-          <DeckCard deck={savedDeck} />
+      {savedCourses?.map((savedCourse) => (
+        <li key={savedCourse.id}>
+          <CourseCard course={savedCourse} />
         </li>
       ))}
     </>

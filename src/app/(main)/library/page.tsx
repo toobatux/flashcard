@@ -49,7 +49,7 @@ export default async function MyDecks() {
 
         <div className="my-8 lg:my-12">
           <div className="mb-3 text-lg text-white/70">Saved Courses</div>
-          {/* <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Suspense
               fallback={Array.from({ length: 4 }, (_, i) => (
                 <DeckCardSkeleton key={i} />
@@ -57,7 +57,7 @@ export default async function MyDecks() {
             >
               <SavedDecks />
             </Suspense>
-          </ul> */}
+          </ul>
         </div>
       </div>
     </>

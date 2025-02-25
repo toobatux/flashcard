@@ -137,17 +137,24 @@ export async function fetchMyCourses(authorId: string): Promise<CourseWithRelati
     });
 }
 
-export async function fetchCourseById(id: string): Promise<CourseWithRelations | null> {
+export async function fetchCourseById(id: string) {
+    const clerkUser = await currentUser();
+    const clerkId = clerkUser?.id;
     const course = await prisma.course.findUnique({
         where: { id },
-        include: { lessons: true, author: true, students: true, savedBy: true, guide: true },
+        include: { lessons: true, author: true, students: true, savedBy: {
+            where: { clerkId }
+        }, guide: true },
     });
 
     if(!course) {
         notFound()
     }
 
-    return course;
+    return {
+        ...course,
+        savedByUser: course.savedBy.length > 0
+    };
 }
 
 export async function fetchLessonById(id: number) {
@@ -161,6 +168,11 @@ export async function fetchLessonById(id: number) {
                     title: true,
                     difficulty: true,
                     author: true,
+                    _count: {
+                        select: {
+                            lessons: true
+                        }
+                    }
                 }
             },
         }
@@ -341,27 +353,27 @@ export async function updateRecentDecks(clerkId: string, courseId: string) {
     })
 }
 
-export async function addDeckToSaved(clerkId: string, deckId: string) {
+export async function saveCourse(clerkId: string, courseId: string) {
     await prisma.user.update({
         where: {clerkId},
         data: {
-            savedCourses: {connect: { id: deckId }},
+            savedCourses: {connect: { id: courseId }},
         }
     })
-    console.log(`Deck ${deckId} saved for User ${clerkId}`)
+    console.log(`Course ${courseId} saved for User ${clerkId}`)
 }
 
-export async function removeDeckFromSaved(clerkId: string, deckId: string) {
+export async function unsaveCourse(clerkId: string, courseId: string) {
     await prisma.user.update({
         where: { clerkId },
         data: {
-            savedCourses: { disconnect: { id: deckId } },
+            savedCourses: { disconnect: { id: courseId } },
         },
     });
-    console.log(`Deck ${deckId} removed from saved decks for User ${clerkId}`)
+    console.log(`Course ${courseId} removed from saved for User ${clerkId}`)
 }
 
-export async function isDeckSaved(clerkId: string, deckId: string) {
+export async function isCourseSaved(clerkId: string, deckId: string) {
     const deck = await prisma.course.findFirst({
         where: {
             id: deckId,
@@ -376,7 +388,7 @@ export async function isDeckSaved(clerkId: string, deckId: string) {
     return !!deck;
 } 
 
-export async function getSavedDecksForUser(clerkId: string) {
+export async function getSavedCoursesForUser(clerkId: string) {
     const user = await prisma.user.findUnique({
         where: { clerkId },
         include: {

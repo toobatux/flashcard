@@ -14,6 +14,7 @@ import { useUser } from "@clerk/nextjs";
 import SaveDeckButton from "./SaveDeckButton";
 import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
 import { CourseWithLessons } from "./CourseHeader";
+import Tooltip from "@/app/components/Tooltip";
 
 interface MoreDropdownProps {
   userIsAuthor: boolean;
@@ -48,40 +49,17 @@ const MoreDropdown = ({
 
   return (
     <div className="relative inline-block text-left dropdown">
-      {/* <button
-        type="button"
-        className="flex items-center border-2 border-white/50 hover:border-white/65 hover:bg-white/10 p-1.5 rounded-lg text-white  transition-colors"
-        onClick={toggleDropdown}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-      >
-        <MoreHoriz />
-      </button> */}
-
-      <div className="relative group flex items-center">
+      <Tooltip text="More">
         <button
           type="button"
-          className="flex items-center border-2 border-transparent hover:bg-white/10 p-1.5 rounded-xl text-white/50  transition-colors"
+          className="flex w-[40px] h-[40px] items-center justify-center hover:bg-white/10 rounded-xl text-white/50 hover:text-white  transition-colors"
           onClick={toggleDropdown}
           aria-expanded={isOpen}
           aria-haspopup="true"
         >
           <MoreHoriz />
         </button>
-
-        <div className="absolute top-[-80%] left-[-10%] bg-white/5 text-white text-sm px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          More
-        </div>
-      </div>
-
-      <div
-        id="tooltip-default"
-        role="tooltip"
-        className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-xl shadow-sm opacity-0 tooltip dark:bg-gray-700"
-      >
-        Tooltip content
-        <div className="tooltip-arrow" data-popper-arrow></div>
-      </div>
+      </Tooltip>
 
       {isOpen && (
         <>

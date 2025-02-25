@@ -180,13 +180,14 @@ li {
 
 .app-bg {
   /* @apply bg-[#1E1E24]; */
-  @apply bg-black/10 dark:bg-[#111111];
+  @apply bg-white dark:bg-[#111111];
   /* @apply bg-black; */
 }
 
 .nav-bg {
   /* @apply bg-[#17171c]; */
   /* @apply bg-[#111111]; */
-  @apply bg-[#080808]
+  /* @apply bg-[#080808] */
+  @apply bg-[#F2F2F2] dark:bg-[#090909]
   /* @apply bg-black; */;
 }

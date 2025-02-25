@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <>
       {/* border-b border-black dark:border-white/15 */}
-      <div className="sticky top-0 z-40 w-full app-bg border-b-2 border-white/5 flex items-center">
+      <div className="sticky top-0 z-40 w-full app-bg border-b-2 border-black/5 dark:border-white/5 flex items-center">
         <div className="flex w-full h-full justify-center ms-4 me-4">
           <div className="flex-auto w-full h-full flex items-center">
             <div className="flex flex-col w-full my-3">
@@ -70,7 +70,7 @@ const Navbar = () => {
                     ))} */}
                   <NewButton />
                   <ClerkLoading>
-                    <div className="w-[40px] h-[40px] bg-white/5 animate-pulse rounded-full"></div>
+                    <div className="w-[40px] h-[40px] bg-black/5 dark:bg-white/5 animate-pulse rounded-full"></div>
                   </ClerkLoading>
                   <ClerkLoaded>
                     <SignedOut>

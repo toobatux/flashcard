@@ -20,7 +20,7 @@ const NewButton = () => {
     <div className="relative inline-block text-left dropdown">
       <button
         type="button"
-        className="px-2 py-2 gap-1 text-sm flex items-center justify-center text-white/75 border-2 border-white/75 hover:border-white hover:text-white rounded-xl font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
+        className="px-2 py-2 gap-1 text-sm flex items-center justify-center text-black/75 dark:text-white/75 border-2 border-black/75 dark:border-white/75 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white rounded-xl font-semibold transition-colors focus:outline-none focus-visible:ring-white focus-visible:ring-2"
         onClick={toggleDropdown}
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -41,7 +41,7 @@ const NewButton = () => {
             onClick={toggleDropdown}
           ></div>
           <div
-            className="absolute right-0 z-20 mt-2 w-[116px] origin-top-right rounded-xl app-bg border border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
+            className="absolute right-0 z-20 mt-2 w-[116px] origin-top-right rounded-xl app-bg border border-black/20 dark:border-white/20 shadow-lg ring-1 ring-black ring-opacity-5"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
@@ -49,7 +49,7 @@ const NewButton = () => {
             <div className="p-2" role="none">
               <Link
                 href="/courses/create"
-                className="flex items-center gap-2 py-3 px-2 text-sm text-white/70 hover:bg-white/10 rounded-lg"
+                className="flex items-center gap-2 py-3 px-2 text-sm text-black dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg"
                 role="menuitem"
                 onClick={toggleDropdown}
               >
@@ -58,7 +58,7 @@ const NewButton = () => {
               </Link>
               <Link
                 href="/guides/create"
-                className="flex w-full items-center gap-2 py-3 px-2 text-sm text-white/70 hover:bg-white/10 rounded-lg"
+                className="flex w-full items-center gap-2 py-3 px-2 text-sm text-black dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg"
                 role="menuitem"
                 onClick={toggleDropdown}
               >

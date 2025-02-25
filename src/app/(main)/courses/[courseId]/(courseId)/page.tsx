@@ -32,7 +32,7 @@ export default async function CoursePage({
   return (
     <>
       <div className="lg:my-6 transition-all"></div>
-      <div className="flex flex-col xl:flex-row gap-2">
+      <div className="flex flex-col xl:flex-row gap-6">
         <div className="relative flex flex-col w-full max-w-3xl mx-auto">
           <CourseHeader
             course={course}
@@ -104,9 +104,40 @@ export default async function CoursePage({
             </div>
           </div>
         </div>
-        <div className="flex flex-col mx-auto">
-          Leaderboard
+        <div className="flex flex-col mx-auto max-w-3xl xl:mx-0 w-full xl:w-1/4">
+          {/* Leaderboard */}
           {/* <Leaderboard deckScores={} /> */}
+          <div className="mt-[3rem] mb-4 text-lg lg:text-xl font-semibold">
+            Leaderboard
+          </div>
+          <div className="p-2 border-2 border-white/5 rounded-lg space-y-1 max-h-[20rem] overflow-auto">
+            <ul>
+              {Array.from({ length: 4 }, (_, i) => (
+                <li key={i}>
+                  <Link
+                    href={`/profile/${user?.id}`}
+                    className="flex w-full items-center justify-between p-2 hover:bg-white/5 group rounded transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={user?.imageURL}
+                        width={100}
+                        height={100}
+                        alt="Avatar"
+                        className="rounded-full object-cover w-6 h-6"
+                      />
+                      <div className="text-sm group-hover:underline">
+                        {user?.username}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-white/50">30</div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </>

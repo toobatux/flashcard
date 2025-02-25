@@ -49,16 +49,16 @@ const CourseCard = ({ course }: CourseCardProps) => {
       href={`/courses/${course?.id}`}
       className="focus:outline-none focus-visible:ring-white focus-visible:ring-2 rounded-lg"
     >
-      <div className="relative p-4 h-[160px] md:h-[180px] bg-white/5 hover:bg-white/10 group rounded-xl transition-all flex flex-col justify-between">
+      <div className="relative p-4 h-[160px] md:h-[180px] border-2 border-black/10 dark:border-none dark:bg-white/5 hover:bg-white/10 group rounded-xl transition-all flex flex-col justify-between">
         <div className="space-y-2 md:space-y-2 lg:mb-6">
-          <div className="text-base text-white/85 font-semibold line-clamp-2 overflow-ellipsis">
+          <div className="text-base dark:text-white/85 font-semibold line-clamp-2 overflow-ellipsis">
             {course?.title}
           </div>
-          <div className="text-white/50 text-sm line-clamp-2 overflow-ellipsis">
+          <div className="text-black/80 dark:text-white/50 text-sm line-clamp-2 overflow-ellipsis">
             {course?.description}
           </div>
         </div>
-        <div className="flex gap-2 text-white/50 text-sm line-clamp-1 overflow-ellipsis">
+        <div className="flex items-center gap-2 text-black/60 dark:text-white/50 text-sm line-clamp-1 overflow-ellipsis">
           <span className="capitalize">{course?.difficulty.toLowerCase()}</span>
           <span>•</span>
           <span className="">

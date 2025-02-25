@@ -27,19 +27,19 @@ export default function LessonHeader({
             href="/courses/"
             className="text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white hover:underline transition-colors"
           >
-            Course
+            Courses
           </Link>
-          <span className="text-black/50 dark:text-white/50">{"/"}</span>
+          <span className="text-black/50 dark:text-white/15">{"/"}</span>
           <Link
             href={`/courses/${lesson.courseId}`}
-            className="text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white hover:underline transition-colors"
+            className="text-black/50 max-w-[15rem] break-words md:max-w-md line-clamp-1 overflow-ellipsis dark:text-white/50 hover:text-black dark:hover:text-white hover:underline transition-colors"
           >
             {lesson.course.title}
           </Link>
-          <span className="text-white/50">{"/"}</span>
+          <span className="text-white/15">{"/"}</span>
         </div>
         <div className="text-black dark:text-white text-3xl md:text-4xl font-bold flex my-6">
-          {lesson.id}: {lesson.title}
+          {lesson.lessonNumber}: {lesson.title}
         </div>
         {/* <div className="flex w-full justify-between items-center mt-6 font-light">
           <div className="text-black/50 dark:text-white/50 flex gap-2 items-center">
@@ -85,7 +85,7 @@ export default function LessonHeader({
             maxCompleted={4}
             isLabelVisible={false}
             bgColor="rgb(37, 99, 235)"
-            baseBgColor="gray"
+            baseBgColor="rgb(42, 42, 48)"
             height="8px"
             className="w-full max-w-[200px] me-3"
           />
@@ -100,9 +100,9 @@ export default function LessonHeader({
             <div
               className={`${
                 isReviewTime
-                  ? "bg-white/95 hover:bg-white/70"
+                  ? "bg-black dark:bg-white/95 dark:hover:bg-white/70"
                   : "border border-white/20 text-white/50 hover:bg-white/10 hover:text-white"
-              } text-black h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
+              } text-white dark:text-black h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
             >
               Learn
             </div>

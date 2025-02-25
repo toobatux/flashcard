@@ -3,17 +3,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HomeIcon from "@mui/icons-material/Home";
 import HomeOutlined from "@mui/icons-material/HomeOutlined";
-import Layers from "@mui/icons-material/Layers";
-import LayersOutlined from "@mui/icons-material/LayersOutlined";
 import Bookmark from "@mui/icons-material/Bookmark";
 import BookmarkOutlined from "@mui/icons-material/BookmarkBorderOutlined";
 import SchoolIcon from "@mui/icons-material/School";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import LogoSVG from "../../../public/Slogo.svg";
-import { HelpOutline, MenuOutlined } from "@mui/icons-material";
+import {
+  HelpOutline,
+  LibraryBooks,
+  LibraryBooksOutlined,
+  MenuOutlined,
+} from "@mui/icons-material";
+import { useUser } from "@clerk/nextjs";
 
 interface SideNavProps {
   isOpenMobile: boolean;
@@ -28,6 +31,8 @@ const SideNav = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const user = useUser();
+
   const mainNavLinks: Array<{
     name: string;
     href: string;
@@ -38,14 +43,14 @@ const SideNav = () => {
     {
       name: "Courses",
       href: "/courses",
-      filled: Layers,
-      outlined: LayersOutlined,
+      filled: SchoolIcon,
+      outlined: SchoolOutlinedIcon,
     },
     {
       name: "Guides",
       href: "/guides",
-      filled: SchoolIcon,
-      outlined: SchoolOutlinedIcon,
+      filled: LibraryBooks,
+      outlined: LibraryBooksOutlined,
     },
     {
       name: "Library",
@@ -69,15 +74,18 @@ const SideNav = () => {
               isOpen && "ps-4"
             } mb-2`}
           >
-            <div className={`${isOpen ? "hidden md:flex" : "hidden"} gap-4`}>
+            <Link
+              href="/"
+              className={`${isOpen ? "hidden md:flex" : "hidden"} gap-4`}
+            >
               <Image src={LogoSVG} width={24} height={24} alt="Logo" />
               STUDY
-            </div>
+            </Link>
             <button
               onClick={toggleNav}
-              className="px-4 py-1 h-full rounded-xl hover:bg-white/5"
+              className="px-4 py-1 h-full rounded-xl hover:bg-black/10 dark:hover:bg-white/5 transition-colors"
             >
-              <MenuOutlined className="text-white/50 " />
+              <MenuOutlined className="text-black/40 dark:text-white/40" />
             </button>
           </div>
 
@@ -91,8 +99,8 @@ const SideNav = () => {
                   key={link.name}
                   className={`flex-1 w-full h-[50px] items-center justify-center transition-colors rounded-xl ${
                     isActive
-                      ? "bg-black/10 dark:bg-white/5 bg-opacity-10"
-                      : "hover:bg-black/5 dark:hover:bg-white/5"
+                      ? "bg-black dark:bg-white/5 dark:bg-opacity-10"
+                      : "hover:bg-black/10 dark:hover:bg-white/5"
                   }`}
                 >
                   <Link
@@ -101,12 +109,12 @@ const SideNav = () => {
                       isOpen ? "md:justify-start" : ""
                     }`}
                   >
-                    <div className={`flex lg:gap-4 ${isOpen ? "gap-4" : ""}`}>
+                    <div className={`flex lg:gap-4 ${isOpen && "gap-4"}`}>
                       <span
                         className={`flex w-[24px] h-[24px] items-center justify-center ${
                           isActive
-                            ? "dark:fill-white dark:text-white font-semibold"
-                            : "fill-none stroke-black/50 dark:text-white/40"
+                            ? "fill-white text-white font-semibold"
+                            : "fill-none text-black/60 dark:text-white/40"
                         }`}
                         style={{ fontSize: "20px" }}
                       >
@@ -116,7 +124,9 @@ const SideNav = () => {
                         className={`${
                           isOpen ? "md:flex" : "hidden"
                         } hidden items-center ${
-                          isActive ? "dark:text-white" : "dark:text-white/60"
+                          isActive
+                            ? "text-white"
+                            : "text-black/80 dark:text-white/60"
                         }`}
                       >
                         {link.name}
@@ -126,22 +136,60 @@ const SideNav = () => {
                 </li>
               );
             })}
+
+            {/* PROFILE NAV ITEM */}
+            {/* <li
+              className={`flex-1 w-full h-[50px] items-center justify-center hover:bg-white/5 transition-colors rounded-xl
+                  
+                  `}
+            >
+              <Link
+                href=""
+                className={`flex w-full h-full items-center px-4 py-2 justify-center md:justify-start ${
+                  isOpen ? "md:justify-start" : ""
+                }`}
+              >
+                <div className={`flex lg:gap-4 ${isOpen && "gap-4"}`}>
+                  <span
+                    className={`flex w-[24px] h-[24px] items-center justify-center `}
+                    style={{ fontSize: "20px" }}
+                  >
+                    <Image
+                      src={user?.user!.imageUrl}
+                      width={24}
+                      height={24}
+                      alt="Profile"
+                      className="rounded-full"
+                    />
+                  </span>
+                  <span
+                    className={`${
+                      isOpen ? "md:flex" : "hidden"
+                    } hidden items-center `}
+                  >
+                    Profile
+                  </span>
+                </div>
+              </Link>
+            </li> */}
           </ul>
         </div>
 
         {/* Help link at bottom */}
         <div className="hidden md:flex mt-auto mb-4 px-4">
           <Link
-            href=""
-            className={`flex gap-4 h-[50px] items-center px-4 py-2 rounded-xl hover:bg-white/5 ${
-              isOpen ? "" : "justify-center"
+            href="/help/"
+            className={`flex gap-4 h-[50px] w-full items-center justify-center md:justify-start px-4 py-2 rounded-xl hover:bg-black/10 dark:hover:bg-white/5 transition-colors ${
+              isOpen && "md:justify-start"
             }`}
           >
-            <span className="flex w-[24px] h-[24px] items-center justify-center dark:text-white/40">
+            <span className="flex w-[24px] h-[24px] items-center justify-center text-black/60 dark:text-white/40">
               <HelpOutline />
             </span>
             <span
-              className={`${isOpen ? "md:flex" : "hidden"} dark:text-white/60`}
+              className={`${
+                isOpen ? "md:flex" : "hidden"
+              } text-black/80 dark:text-white/60`}
             >
               Help
             </span>

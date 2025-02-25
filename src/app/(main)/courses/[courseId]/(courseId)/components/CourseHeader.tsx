@@ -1,9 +1,17 @@
 "use client";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import MoreDropdown from "./MoreDropdown";
 import { Course, Difficulty, Lesson } from "@prisma/client";
+import {
+  Bookmark,
+  BookmarkAddOutlined,
+  BookmarkBorderOutlined,
+  BookmarkOutlined,
+} from "@mui/icons-material";
+import Tooltip from "@/app/components/Tooltip";
+import SaveCourseButton from "./SaveCourseButton";
 
 export type CourseWithLessons = {
   id: string;
@@ -12,6 +20,7 @@ export type CourseWithLessons = {
   isPublic: boolean;
   difficulty: Difficulty;
   lessons: Lesson[];
+  savedByUser: boolean;
 };
 
 type CourseHeaderProps = {
@@ -25,6 +34,12 @@ export default function CourseHeader({
   userIsAuthor,
   isReviewTime,
 }: CourseHeaderProps) {
+  const [isSaved, setIsSaved] = useState<boolean>();
+
+  const handleSaveCourse = () => {
+    setIsSaved(!isSaved);
+  };
+
   return (
     <>
       {/* Links */}
@@ -35,7 +50,7 @@ export default function CourseHeader({
           href="/courses/"
           className="text-white/50 hover:text-white hover:underline transition-colors"
         >
-          Course
+          Courses
         </Link>
         {!course?.isPublic && (
           <div className="text-white/50">
@@ -75,11 +90,15 @@ export default function CourseHeader({
           maxCompleted={4}
           isLabelVisible={false}
           bgColor="rgb(37, 99, 235)"
-          baseBgColor="gray"
+          baseBgColor="rgb(42, 42, 48)"
           height="8px"
           className="w-full max-w-[200px] me-3"
         />
-        <div className="flex gap-3">
+        <div className="flex items-center gap-2">
+          <SaveCourseButton
+            courseId={course.id}
+            initialSaved={course.savedByUser}
+          />
           <MoreDropdown
             userIsAuthor={userIsAuthor}
             courseId={course!.id}
@@ -91,7 +110,7 @@ export default function CourseHeader({
               isReviewTime
                 ? "bg-white/95 hover:bg-white/70"
                 : "border border-white/20 text-white/50 hover:bg-white/10 hover:text-white"
-            } text-black h-[40px] w-[96px] py-2 px-6 rounded-xl font-medium transition-colors flex items-center justify-center`}
+            } text-black h-[40px] py-2 px-6 rounded-xl font-medium transition-colors flex w-full items-center justify-center`}
           >
             Learn
           </div>
